@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import MainLayout from "../Components/MainLayout";
 
 import Home from "../Pages/Home";
@@ -10,7 +10,7 @@ import Wishlist from "../Pages/Wishlist";
 import Profile from "../Pages/Profile";
 import NotFound from "../Pages/NotFound";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: "/",
     element: <MainLayout />,
