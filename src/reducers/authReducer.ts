@@ -30,6 +30,7 @@ export const authReducer = (
         user: action.payload,
         token: action.payload.accessToken,
         isAuthenticated: true,
+        error: null,
       };
 
     case LOGIN_FAIL:
