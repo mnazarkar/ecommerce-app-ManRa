@@ -20,7 +20,7 @@ api.interceptors.request.use(
 
     // ❌ No token → redirect
     if (!token) {
-      window.location.href = "/ecommerce-app-ManRa/login";
+      window.location.href = "/ecommerce-app-ManRa/#/login";
       return config;
     }
 
