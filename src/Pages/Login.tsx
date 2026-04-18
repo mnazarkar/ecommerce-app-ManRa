@@ -54,10 +54,6 @@ const Login = () => {
     await dispatch(login(username, password));
   };
 
-  // ✅ disable button logic
-  const isFormValid =
-    username.trim().length > 0 && password.length >= 6;
-
   const getFormView = () => {
     return (
       <div className="max-w-md mx-auto bg-white shadow-md p-6 rounded-lg">
