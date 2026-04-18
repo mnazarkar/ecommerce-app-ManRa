@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart, MapPin, User } from "lucide-react";
+import { ShoppingCart, User } from "lucide-react";
 import SearchBar from "./SearchBar";
 import { useSelector } from "react-redux";
 
