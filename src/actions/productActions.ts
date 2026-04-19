@@ -14,11 +14,11 @@ export const FETCH_PRODUCT_LIST_BY_CATEGORY_SUCCESS = "FETCH_PRODUCT_LIST_BY_CAT
 export const FETCH_SEARCHED_PRODUCT_LIST_SUCCESS = "FETCH_SEARCHED_PRODUCT_LIST_SUCCESS";
 
 // 🔹 Fetch All Products
-export const fetchProducts = (limit= 20, skip= 0) => async (dispatch: Dispatch) => {
+export const fetchProducts = (limit= 21, skip= 0, sortBy= "title", order= "asc") => async (dispatch: Dispatch) => {
   try {
     dispatch({ type: SHOW_LOADER });
 
-    const res = await api.get(`/products/?limit=${limit}&skip=${skip}`);
+    const res = await api.get(`/products/?limit=${limit}&skip=${skip}&sortBy=${sortBy}&order=${order}`);
 
     dispatch({
       type: FETCH_PRODUCTS_SUCCESS,
@@ -71,10 +71,10 @@ export const fetchProductCategories = () => async (dispatch: Dispatch) => {
   }
 };
 
-export const fetchProductListByCategory = (categoryName: string, limit = 20, skip = 0) => async (dispatch: Dispatch) => {
+export const fetchProductListByCategory = (categoryName: string, limit = 21, skip = 0, sortBy = "title", order = "asc") => async (dispatch: Dispatch) => {
   try {
     dispatch({ type: SHOW_LOADER });
-    const res = await api.get(`products/category/${categoryName}?limit=${limit}&skip=${skip}`);
+    const res = await api.get(`products/category/${categoryName}?limit=${limit}&skip=${skip}&sortBy=${sortBy}&order=${order}`);
     dispatch({
       type: FETCH_PRODUCT_LIST_BY_CATEGORY_SUCCESS,
       payload: res.data,
@@ -87,10 +87,10 @@ export const fetchProductListByCategory = (categoryName: string, limit = 20, ski
   }
 };
 
-export const fetchSearchedProductList = (searchTerm: string, limit = 20, skip = 0) => async (dispatch: Dispatch) => {
+export const fetchSearchedProductList = (searchTerm: string, limit = 21, skip = 0, sortBy = "title", order = "asc") => async (dispatch: Dispatch) => {
   try {
     dispatch({ type: SHOW_LOADER });
-    const res = await api.get(`products/search?q=${searchTerm}&limit=${limit}&skip=${skip}`);
+    const res = await api.get(`products/search?q=${searchTerm}&limit=${limit}&skip=${skip}&sortBy=${sortBy}&order=${order}`);
     dispatch({
       type: FETCH_SEARCHED_PRODUCT_LIST_SUCCESS,
       payload: res.data,
