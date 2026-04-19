@@ -53,7 +53,7 @@ export const fetchProductDetail = (id: string) => async (dispatch: Dispatch) => 
   }
 };
 
-export const getProductCategories = async (dispatch: Dispatch) => {
+export const fetchProductCategories = () => async (dispatch: Dispatch) => {
   try {
     dispatch({ type: SHOW_LOADER });
     const res = await api.get("/products/categories");

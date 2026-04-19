@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { Menu, ShoppingCart, User } from "lucide-react";
+import { ShoppingCart, User } from "lucide-react";
 import SearchBar from "./SearchBar";
 import { useSelector } from "react-redux";
+import Navbar from "./Navbar";
 
 const Header = () => {
   const authState = useSelector((state: any) => state.auth);
@@ -11,9 +12,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-4 justify-between">
 
         <div className="flex items-center gap-2">
-          <Link to="/products" className="">
-            <Menu />
-          </Link>
+            <Navbar />
           {/* 🔹 Logo */}
         <Link to="/" className="text-xl font-bold whitespace-nowrap">
           ManRa

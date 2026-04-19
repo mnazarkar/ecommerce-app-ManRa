@@ -31,7 +31,7 @@ api.interceptors.request.use(
       localStorage.removeItem("accessToken");
       localStorage.removeItem("tokenExpiry");
 
-      window.location.href = "/login";
+      window.location.href = "/ecommerce-app-ManRa/#/login";
       return config;
     }
 
@@ -51,7 +51,7 @@ api.interceptors.response.use(
   (error: AxiosError) => {
     if (error.response?.status === 401) {
       localStorage.clear();
-      window.location.href = "/login";
+      window.location.href = "/ecommerce-app-ManRa/#/login";
     }
 
     return Promise.reject(error);
