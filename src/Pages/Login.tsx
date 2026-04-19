@@ -16,7 +16,7 @@ const Login = () => {
   }, [authState.isAuthenticated]);
 
   useEffect(() => {
-      setShowLoginModal(true);
+      !authState.isAuthenticated && setShowLoginModal(true);
   }, []);
 
 

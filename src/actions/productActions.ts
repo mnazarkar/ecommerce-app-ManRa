@@ -14,15 +14,15 @@ export const FETCH_PRODUCT_LIST_BY_CATEGORY_SUCCESS = "FETCH_PRODUCT_LIST_BY_CAT
 export const FETCH_SEARCHED_PRODUCT_LIST_SUCCESS = "FETCH_SEARCHED_PRODUCT_LIST_SUCCESS";
 
 // 🔹 Fetch All Products
-export const fetchProducts = () => async (dispatch: Dispatch) => {
+export const fetchProducts = (limit= 20, skip= 0) => async (dispatch: Dispatch) => {
   try {
     dispatch({ type: SHOW_LOADER });
 
-    const res = await api.get("/products");
+    const res = await api.get(`/products/?limit=${limit}&skip=${skip}`);
 
     dispatch({
       type: FETCH_PRODUCTS_SUCCESS,
-      payload: res.data.products,
+      payload: res.data,
     });
     dispatch({ type: HIDE_LOADER });
   } catch (error: any) {
@@ -71,13 +71,13 @@ export const fetchProductCategories = () => async (dispatch: Dispatch) => {
   }
 };
 
-export const fetchProductListByCategory = (categoryName: string) => async (dispatch: Dispatch) => {
+export const fetchProductListByCategory = (categoryName: string, limit = 20, skip = 0) => async (dispatch: Dispatch) => {
   try {
     dispatch({ type: SHOW_LOADER });
-    const res = await api.get(`products/category/${categoryName}`);
+    const res = await api.get(`products/category/${categoryName}?limit=${limit}&skip=${skip}`);
     dispatch({
       type: FETCH_PRODUCT_LIST_BY_CATEGORY_SUCCESS,
-      payload: res.data.products,
+      payload: res.data,
     });
     dispatch({ type: HIDE_LOADER });
   } catch (error: any) {
@@ -87,13 +87,13 @@ export const fetchProductListByCategory = (categoryName: string) => async (dispa
   }
 };
 
-export const fetchSearchedProductList = (searchTerm: string) => async (dispatch: Dispatch) => {
+export const fetchSearchedProductList = (searchTerm: string, limit = 20, skip = 0) => async (dispatch: Dispatch) => {
   try {
     dispatch({ type: SHOW_LOADER });
-    const res = await api.get(`products/search?q=${searchTerm}`);
+    const res = await api.get(`products/search?q=${searchTerm}&limit=${limit}&skip=${skip}`);
     dispatch({
       type: FETCH_SEARCHED_PRODUCT_LIST_SUCCESS,
-      payload: res.data.products,
+      payload: res.data,
     });
     dispatch({ type: HIDE_LOADER });
   } catch (error: any) {

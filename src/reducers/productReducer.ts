@@ -15,6 +15,7 @@ interface ProductState {
   loading: boolean;
   error: string | null;
   categories?: string[];
+  totalProducts?: number;
 }
 
 const initialState: ProductState = {
@@ -23,6 +24,7 @@ const initialState: ProductState = {
   loading: false,
   error: null,
   categories: [],
+  totalProducts: 0,
 };
 
 export const productReducer = (
@@ -36,7 +38,8 @@ export const productReducer = (
       return {
         ...state,
         loading: false,
-        products: action.payload,
+        products: action.payload.products,
+        totalProducts: action.payload.total,
       };
 
     case FETCH_PRODUCTS_FAIL:
@@ -72,13 +75,15 @@ export const productReducer = (
       return {
         ...state,
         loading: false,
-        products: action.payload, 
+        products: action.payload.products, 
+        totalProducts: action.payload.total,
       };
     case FETCH_SEARCHED_PRODUCT_LIST_SUCCESS:
       return {
         ...state,
         loading: false,
-        products: action.payload, 
+        products: action.payload.products,
+        totalProducts: action.payload.total,
       };
 
     default:
