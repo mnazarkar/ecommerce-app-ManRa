@@ -10,6 +10,8 @@ export const FETCH_PRODUCT_DETAIL_SUCCESS = "FETCH_PRODUCT_DETAIL_SUCCESS";
 export const FETCH_PRODUCT_DETAIL_FAIL = "FETCH_PRODUCT_DETAIL_FAIL";
 
 export const FETCH_PRODUCT_CATEGORIES_SUCCESS = "FETCH_PRODUCT_CATEGORIES_SUCCESS";
+export const FETCH_PRODUCT_LIST_BY_CATEGORY_SUCCESS = "FETCH_PRODUCT_LIST_BY_CATEGORY_SUCCESS";
+export const FETCH_SEARCHED_PRODUCT_LIST_SUCCESS = "FETCH_SEARCHED_PRODUCT_LIST_SUCCESS";
 
 // 🔹 Fetch All Products
 export const fetchProducts = () => async (dispatch: Dispatch) => {
@@ -56,7 +58,7 @@ export const fetchProductDetail = (id: string) => async (dispatch: Dispatch) => 
 export const fetchProductCategories = () => async (dispatch: Dispatch) => {
   try {
     dispatch({ type: SHOW_LOADER });
-    const res = await api.get("/products/categories");
+    const res = await api.get("/products/category-list");
     dispatch({
       type: FETCH_PRODUCT_CATEGORIES_SUCCESS,
       payload: res.data,
@@ -65,6 +67,38 @@ export const fetchProductCategories = () => async (dispatch: Dispatch) => {
   } catch (error: any) {
     dispatch({ type: HIDE_LOADER });
     console.error("Error fetching product categories:", error.message);
+    throw error;
+  }
+};
+
+export const fetchProductListByCategory = (categoryName: string) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: SHOW_LOADER });
+    const res = await api.get(`products/category/${categoryName}`);
+    dispatch({
+      type: FETCH_PRODUCT_LIST_BY_CATEGORY_SUCCESS,
+      payload: res.data.products,
+    });
+    dispatch({ type: HIDE_LOADER });
+  } catch (error: any) {
+    dispatch({ type: HIDE_LOADER });
+    console.error("Error fetching product list by category:", error.message);
+    throw error;
+  }
+};
+
+export const fetchSearchedProductList = (searchTerm: string) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: SHOW_LOADER });
+    const res = await api.get(`products/search?q=${searchTerm}`);
+    dispatch({
+      type: FETCH_SEARCHED_PRODUCT_LIST_SUCCESS,
+      payload: res.data.products,
+    });
+    dispatch({ type: HIDE_LOADER });
+  } catch (error: any) {
+    dispatch({ type: HIDE_LOADER });
+    console.error("Error fetching searched product list:", error.message);
     throw error;
   }
 };

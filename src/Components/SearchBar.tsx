@@ -1,21 +1,25 @@
 import { useState, useEffect, useRef } from "react";
-import { useDebounce } from "../hooks/useDebounce";
 import { Search, X } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { fetchSearchedProductList } from "../actions/productActions";
+import { useNavigate } from "react-router";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch<any>();
+  const navigate = useNavigate();
 
-  const debouncedQuery = useDebounce(query, 500);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // API call
-  useEffect(() => {
-    if (debouncedQuery) {
-      console.log("API Call for:", debouncedQuery);
-    }
-  }, [debouncedQuery]);
+  const handleSubmit = () => {
+    if (!query.trim()) return;
+    console.log("Search submitted:", query);
+    dispatch(fetchSearchedProductList(query));
+    setOpen(false);
+    navigate(`/products/search?q=${encodeURIComponent(query)}`);
+  };
 
   // Focus when open
   useEffect(() => {
@@ -45,7 +49,7 @@ const SearchBar = () => {
       
       {/* 🔍 Search Icon (always visible) */}
       {!open && <Search
-        className="cursor-pointer z-10"
+        className="cursor-pointer z-10 invert"
         size={22}
         onClick={() => setOpen(true)}
       />}
@@ -66,6 +70,12 @@ const SearchBar = () => {
               placeholder="Search products..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
               className="
                 w-full border rounded-full py-2 pl-10 pr-10
                 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white
@@ -74,8 +84,9 @@ const SearchBar = () => {
 
             {/* Left icon inside input */}
             <Search
-              className="absolute left-3 text-gray-500"
+              className="absolute left-3 text-gray-500 cursor-pointer"
               size={18}
+              onClick={handleSubmit}
             />
 
             {/* Close icon */}

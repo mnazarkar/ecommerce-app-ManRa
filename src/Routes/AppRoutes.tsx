@@ -22,6 +22,8 @@ export const router = createHashRouter([
       { path: "/wishlist", element: <Wishlist /> },
       { path: "/profile", element: <Profile /> },
       { path: "/products", element: <ProductList /> },
+      { path: "/products/:category", element: <ProductList /> },
+      { path: "/products/search?q=:searchedparam", element: <ProductList /> },
     ],
   },
   {

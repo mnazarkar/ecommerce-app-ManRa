@@ -3,7 +3,9 @@ import {
   FETCH_PRODUCTS_FAIL,
   FETCH_PRODUCT_DETAIL_SUCCESS,
   FETCH_PRODUCT_DETAIL_FAIL,
-  FETCH_PRODUCT_CATEGORIES_SUCCESS
+  FETCH_PRODUCT_CATEGORIES_SUCCESS,
+  FETCH_PRODUCT_LIST_BY_CATEGORY_SUCCESS,
+  FETCH_SEARCHED_PRODUCT_LIST_SUCCESS
 } from "../actions/productActions";
 
 // 🔹 Types
@@ -65,6 +67,18 @@ export const productReducer = (
         ...state,
         loading: false,
         categories: action.payload, 
+      };
+    case FETCH_PRODUCT_LIST_BY_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        products: action.payload, 
+      };
+    case FETCH_SEARCHED_PRODUCT_LIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        products: action.payload, 
       };
 
     default:
