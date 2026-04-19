@@ -4,18 +4,25 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./actions/authActions";
 import FullPageLoader from "./Components/FullPageLoader";
+import { fetchUserCart } from "./actions/cartActions";
 
 function App() {
   const dispatch = useDispatch<any>();
   const { isLoading } = useSelector((state: any) => state.loader);
+  const authState = useSelector((state: any) => state.auth);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+    const initializeApp = async () => {
+      const token = localStorage.getItem("accessToken");
 
-    if (token) {
-      dispatch(getUser());
-    }
-  }, [dispatch]);
+      if (token) {
+        await dispatch(getUser());
+        await dispatch(fetchUserCart(authState.user?.id));
+      }
+    };
+
+    initializeApp();
+  }, [dispatch, authState.user?.id]);
 
   return (
     <>
