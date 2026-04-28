@@ -14,7 +14,7 @@ interface Product {
   description: string;
   price: number;
   rating: number;
-  stock: number;
+  stock?: number;
   brand: string;
   category: string;
   images: string[];
@@ -28,25 +28,47 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await api.get(`/products/${id}`);
-      setProduct(res.data);
+      setTimeout(() => {
+        setProduct(res.data);
+      }, 2000);
     };
 
     fetchProduct();
   }, [id]);
 
-  if (!product) return <p className="p-6">Loading...</p>;
+  const getSkeletonView = () => {
+      return (
+      <div className="grid md:grid-cols-2 gap-6 animate-pulse">
+        <div className="h-80 bg-gray-300 rounded" />
+        <div className="flex gap-2 mt-2 overflow-x-auto">
+          <div className="h-16 w-16 bg-gray-300 rounded" />
+          <div className="h-16 w-16 bg-gray-300 rounded" />
+          <div className="h-16 w-16 bg-gray-300 rounded" />
+          <div className="h-16 w-16 bg-gray-300 rounded" />
+          <div className="h-16 w-16 bg-gray-300 rounded" />
+        </div>
+        <div className="space-y-4">
+          <div className="h-6 bg-gray-300 rounded w-1/2" />
+          <div className="h-4 bg-gray-300 rounded w-3/4" />
+          <div className="h-4 bg-gray-300 rounded w-1/3" />
+          <div className="h-10 bg-gray-300 rounded w-1/2" />
+        </div>
+      </div>
+    );
+  };
 
+  const getPDPView = () => {
   return (
-    <div className="p-6 grid md:grid-cols-2 gap-6">
+    <div className="grid md:grid-cols-2 gap-6">
       {/* Images */}
       <div>
         <img
-          src={product.images[0]}
+          src={product?.images[0]}
           className="w-full h-80 object-cover rounded"
         />
 
-        <div className="flex gap-2 mt-2">
-          {product.images.map((img, i) => (
+        <div className="flex gap-2 mt-2 overflow-x-auto">
+          {product?.images.map((img, i) => (
             <img
               key={i}
               src={img}
@@ -58,18 +80,18 @@ const ProductDetail = () => {
 
       {/* Details */}
       <div>
-        <h1 className="text-2xl font-bold">{product.title}</h1>
+        <h1 className="text-2xl font-bold">{product?.title}</h1>
 
-        <p className="text-gray-500 mt-1">{product.brand}</p>
+        <p className="text-gray-500 mt-1">{product?.brand}</p>
 
-        <p className="mt-3">{product.description}</p>
+        <p className="mt-3">{product?.description}</p>
 
         <div className="mt-4 flex items-center gap-4">
           <span className="text-xl font-bold">
-            ₹{product.price}
+            ₹{product?.price}
           </span>
           <span className="text-yellow-500">
-            ⭐ {product.rating}
+            ⭐ {product?.rating}
           </span>
         </div>
 
@@ -77,12 +99,12 @@ const ProductDetail = () => {
           Stock:{" "}
           <span
             className={
-              product.stock > 10
+              (product?.stock ?? 0) > 10
                 ? "text-green-600"
                 : "text-red-500"
             }
           >
-            {product.stock > 10 ? "In Stock" : "Low Stock"}
+            {(product?.stock ?? 0) > 10 ? "In Stock" : "Low Stock"}
           </span>
         </p>
 
@@ -98,7 +120,7 @@ const ProductDetail = () => {
         </h2>
 
         <div className="space-y-3">
-          {product.reviews.map((review, index) => (
+          {product?.reviews.map((review, index) => (
             <div
               key={index}
               className="border p-3 rounded"
@@ -118,6 +140,16 @@ const ProductDetail = () => {
       </div>
     </div>
   );
+};
+
+const getView = () => {
+  if (!product) return getSkeletonView();
+  return getPDPView();
+};
+
+return (
+  getView()
+);
 };
 
 export default ProductDetail;

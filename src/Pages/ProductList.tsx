@@ -12,12 +12,13 @@ import {
 } from "../actions/productActions";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const LIMIT = 21;
+const LIMIT = 20;
 
 const ProductList = () => {
-  const { products, totalProducts, loading } = useSelector(
+  const { products, totalProducts } = useSelector(
     (state: any) => state.product
   );
+  const [productList, setProductList] = useState<any[]>([]);
 
   const dispatch = useDispatch<any>();
   const navigate = useNavigate();
@@ -31,6 +32,15 @@ const ProductList = () => {
   const [order, setOrder] = useState("asc");
 
   const totalPages = Math.ceil(totalProducts / LIMIT);
+
+  useEffect(() => {
+    setTimeout(() => {
+    setProductList(products);
+    }, 2000);
+    return () => {
+      setProductList([]);
+    };
+  }, [products]);
 
   // Scroll to top on page change
   useEffect(() => {
@@ -59,8 +69,9 @@ const ProductList = () => {
     }
   }, [page, category, query, sortBy, order]);
 
-  return (
-    <div className="p-6">
+  const PLPView = () => {
+    return (
+      <div>
       {/* Header */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
         <h2 className="text-lg font-semibold">
@@ -94,19 +105,14 @@ const ProductList = () => {
         </div>
       </div>
 
-      {/* Loader */}
-      {loading && (
-        <p className="text-center py-10">Loading...</p>
-      )}
-
       {/* Empty */}
-      {!loading && products.length === 0 && (
+      {productList?.length === 0 && (
         <p className="text-center py-10">No products found</p>
       )}
 
       {/* Products */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((p: any) => (
+      <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+        {productList?.map((p: any) => (
           <div
             key={p.id}
             onClick={() => navigate(`/product/${p.id}`)}
@@ -175,7 +181,32 @@ const ProductList = () => {
           </button>
         </div>
       )}
+    </div>);
+  };
+
+  const PLPSkeletonView = () => {
+    return (
+    <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className="space-y-2 animate-pulse">
+          <div className="h-40 bg-gray-300 rounded" />
+          <div className="h-4 bg-gray-300 rounded w-3/4" />
+          <div className="h-4 bg-gray-300 rounded w-1/2" />
+        </div>
+      ))}
     </div>
+  );
+  };
+
+  const getView = () => {
+    if (productList?.length === 0) {
+      return PLPSkeletonView();
+    }
+    return PLPView();
+  };
+
+  return (
+    getView()
   );
 };
 
