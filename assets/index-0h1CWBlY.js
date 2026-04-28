@@ -21,7 +21,7 @@ Please change the parent <Route path="${e}"> to <Route path="${e===`/`?`*`:`${e}
             fixed left-0 items-center w-full flex justify-center
             transition-all duration-300 ease-in-out z-200
             ${n?`flex`:`hidden`}
-          `,children:(0,L.jsxs)(`div`,{className:`relative flex flex-row items-center w-[80%]`,children:[(0,L.jsx)(`input`,{ref:o,type:`text`,placeholder:`Search products...`,value:e,onChange:e=>t(e.target.value),onKeyDown:e=>{e.key===`Enter`&&(e.preventDefault(),c())},className:`\r
+          `,children:(0,L.jsxs)(`form`,{onSubmit:e=>{e.preventDefault(),c()},className:`relative flex flex-row items-center w-[80%]`,children:[(0,L.jsx)(`input`,{ref:o,type:`search`,placeholder:`Search products...`,value:e,onChange:e=>t(e.target.value),onKeyDown:e=>{e.key===`Enter`&&(e.preventDefault(),c())},className:`\r
                 w-full border rounded-full py-2 pl-10 pr-10\r
                 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white\r
               `}),(0,L.jsx)(ha,{className:`absolute left-3 text-gray-500 cursor-pointer`,size:18,onClick:c}),(0,L.jsx)(ya,{className:`absolute right-3 cursor-pointer text-gray-500`,size:18,onClick:()=>{r(!1),t(``)}})]})})]})},nl=()=>{let e=Ba(),[t,n]=(0,S.useState)(!1),{categories:r}=Ua(e=>e.product),i=er();(0,S.useEffect)(()=>{e(Qc())},[]),console.log(`cccc`,r);let a=t=>{console.log(`Category clicked:`,t),e($c(t)),n(!1),i(`/products/${t}`)};return(0,L.jsxs)(L.Fragment,{children:[(0,L.jsx)(`style`,{children:`
