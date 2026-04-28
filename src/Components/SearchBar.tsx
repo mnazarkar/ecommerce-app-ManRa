@@ -47,14 +47,14 @@ const SearchBar = () => {
   return (
     <div ref={containerRef} className="relative flex items-center">
       
-      {/* 🔍 Search Icon (always visible) */}
+      {/* Search Icon (always visible) */}
       {!open && <Search
         className="cursor-pointer z-10 invert"
         size={22}
         onClick={() => setOpen(true)}
       />}
 
-      {/* 🔎 Animated Input */}
+      {/* Animated Input */}
       <div className={`fixed inset-0 bg-black/50 w-full h-full z-100 ${open ? "flex" : "hidden"}`} onClick={() => setOpen(false)}></div>
         <div
           className={`
@@ -63,10 +63,10 @@ const SearchBar = () => {
             ${open ? "flex" : "hidden"}
           `}
         >
-          <div className="relative flex flex-row items-center w-[80%]">
+          <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="relative flex flex-row items-center w-[80%]">
             <input
               ref={inputRef}
-              type="text"
+              type="search"
               placeholder="Search products..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -98,7 +98,7 @@ const SearchBar = () => {
                 setQuery("");
               }}
             />
-          </div>
+          </form>
         </div>
     </div>
   );
