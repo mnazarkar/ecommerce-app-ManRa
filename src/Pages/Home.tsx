@@ -16,6 +16,7 @@ import {
   Flower2,
   Dumbbell,
 } from "lucide-react";
+import Footer from "../Components/Footer";
 
 type Product = {
   id: number;
@@ -105,6 +106,7 @@ const HomePage = () => {
 }, []);
 
   return (
+    <>
     <div className="space-y-10 pb-10">
 
       <Carousel />
@@ -237,6 +239,8 @@ const HomePage = () => {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 

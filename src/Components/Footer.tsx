@@ -10,12 +10,11 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-tr from-violet-900 via-violet-800 to-fuchsia-800 text-gray-200 mt-10">
+    <footer className="absolute left-0 w-full bg-gradient-to-tr from-violet-900 via-violet-800 to-fuchsia-800 text-gray-200 mt-10">
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
 
-        {/* 🔹 About */}
         <div>
-          <h3 className="text-gray-400 font-semibold mb-3">About</h3>
+          <h3 className="text-white font-semibold mb-3">About</h3>
           <ul className="space-y-2 text-sm">
             <li className="text-gray-400 hover:text-white cursor-pointer">Our Story</li>
             <li className="text-gray-400 hover:text-white cursor-pointer">Careers</li>
@@ -24,9 +23,8 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* 🔹 Help */}
         <div>
-          <h3 className="text-gray-400 font-semibold mb-3">Help</h3>
+          <h3 className="text-white font-semibold mb-3">Help</h3>
           <ul className="space-y-2 text-sm">
             <li className="text-gray-400 hover:text-white cursor-pointer">Payments</li>
             <li className="text-gray-400 hover:text-white cursor-pointer">Shipping</li>
@@ -35,9 +33,8 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* 🔹 Contact */}
         <div>
-          <h3 className="text-gray-400 font-semibold mb-3">Contact</h3>
+          <h3 className="text-white font-semibold mb-3">Contact</h3>
           <ul className="space-y-3 text-sm">
             <li className="text-gray-400 hover:text-white flex items-center gap-2">
               <MapPin size={16} /> Pune, India
@@ -51,9 +48,8 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* 🔹 Social */}
         <div>
-          <h3 className="text-gray-400 font-semibold mb-3">Follow Us</h3>
+          <h3 className="text-white font-semibold mb-3">Follow Us</h3>
 
           <div className="flex gap-4 mb-4">
             <Facebook className="cursor-pointer text-gray-400 hover:text-white" />
@@ -62,13 +58,12 @@ const Footer = () => {
             <Linkedin className="cursor-pointer text-gray-400 hover:text-white" />
           </div>
 
-          <p className="text-gray-400 text-sm">
+          <p className="text-white text-sm">
             Stay connected for latest deals & updates
           </p>
         </div>
       </div>
 
-      {/* 🔻 Bottom Bar */}
       <div className="border-t border-white/10 text-center py-4 text-sm">
         © 2026 ManRa. All rights reserved.
       </div>
