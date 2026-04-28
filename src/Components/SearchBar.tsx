@@ -66,7 +66,7 @@ const SearchBar = () => {
           <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="relative flex flex-row items-center w-[80%]">
             <input
               ref={inputRef}
-              type="search"
+              type="text"
               placeholder="Search products..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
