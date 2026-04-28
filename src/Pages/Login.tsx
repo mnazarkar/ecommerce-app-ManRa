@@ -35,7 +35,7 @@ const Login = () => {
             Welcome, {authState.user.firstName}!
           </div>
           <button
-            className="bg-red-500 text-white p-2 rounded cursor-pointer"
+            className=" bg-linear-to-bl from-violet-500 to-fuchsia-500 text-white p-2 rounded cursor-pointer"
             onClick={() => dispatch(logout())}
           >
             Logout
@@ -46,7 +46,7 @@ const Login = () => {
       return (
         <div className="flex flex-col gap-4 w-full h-full justify-center items-center">
           <h2 className="text-2xl font-bold">Please login to continue</h2>
-          <button className="flex px-6 py-2 rounded bg-black text-white cursor-pointer" onClick={()=> setShowLoginModal(true)}>Login</button>
+          <button className="flex px-6 py-2 rounded  bg-linear-to-bl from-violet-500 to-fuchsia-500 text-white cursor-pointer" onClick={()=> setShowLoginModal(true)}>Login</button>
         </div>
       );
     }

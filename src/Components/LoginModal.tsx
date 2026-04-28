@@ -66,7 +66,7 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
     await dispatch(login(username, password, navigate));
   };
   return (
-    <div className="fixed inset-0 w-full h-full bg-black/50 backdrop-blur flex items-center justify-center z-200" onClick={onClose}>
+    <div className="fixed inset-0 w-full h-full bg-black/50 backdrop-blur flex items-center justify-center z-200 px-4" onClick={onClose}>
       <div className="min-w-[50%] min-h-[50%] mx-auto bg-white shadow-md p-6 rounded-lg flex flex-col justify-between items-center" onClick={(e) => e.stopPropagation()}>
         <h2 className="text-xl font-bold mb-4">Login</h2>
         <h4 className="text-lg font-semibold mb-4">Please enter your credentials</h4>
@@ -146,7 +146,7 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
 
           {/* Button */}
           <button
-            className='py-2 rounded text-white cursor-pointer bg-black'
+            className='py-2 rounded text-white cursor-pointer bg-linear-to-bl from-violet-500 to-fuchsia-500'
           >
             Login
           </button>

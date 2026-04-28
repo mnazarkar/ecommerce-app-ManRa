@@ -58,7 +58,7 @@ const Navbar = () => {
     <Menu onClick={()=> setOpenMenu(true)} className="cursor-pointer invert"/>
       <div className={`fixed backdrop-blur top-0 left-0 w-full h-full bg-black/50 z-100 flex items-center justify-start transition-all duration-300 ease-in-out ${openMenu ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={()=> setOpenMenu(false)}>
         <div className={`bg-white p-6 rounded shadow-lg h-full w-[80%] md:w-[30%] transition-transform duration-300 ease-in-out ${openMenu ? 'translate-x-0' : '-translate-x-full'}`} onClick={(e) => e.stopPropagation()}>
-          <div className="absolute top-0 left-0 w-full flex justify-between items-center mb-4 bg-black py-3 px-4 rounded-tr">
+          <div className="absolute top-0 left-0 w-full flex justify-between items-center mb-4 bg-linear-to-bl from-violet-500 to-fuchsia-500 py-3 px-4 rounded-tr">
             <h2 className="text-xl font-bold text-white">Categories</h2>
             <X className="cursor-pointer invert" onClick={()=> setOpenMenu(false)}/>
           </div>

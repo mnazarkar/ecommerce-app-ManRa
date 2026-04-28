@@ -9,7 +9,7 @@ const Header = () => {
   const cartState = useSelector((state: any) => state.cart);
   const { isAuthenticated, user } = authState;
   return (
-    <header className="w-full bg-black shadow-sm border-b sticky top-0 z-50">
+    <header className="w-full bg-linear-to-bl from-violet-500 to-fuchsia-500 shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-4 justify-between">
 
         <div className="flex items-center gap-2">
