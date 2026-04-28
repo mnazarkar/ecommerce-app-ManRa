@@ -6,25 +6,23 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// ✅ Request Interceptor
+// Request Interceptor
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const token = localStorage.getItem("accessToken");
     const expiry = localStorage.getItem("tokenExpiry");
 
-    if (
-      config.url?.includes("/auth/login")
-    ) {
+    if (config.url?.includes("/auth/login")) {
       return config;
     }
 
-    // ❌ No token → redirect
+    // No token → redirect
     if (!token) {
       window.location.href = "/ecommerce-app-ManRa/#/login";
       return config;
     }
 
-    // ❌ Expired token → clear & redirect
+    // Expired token → clear & redirect
     if (expiry && Date.now() > Number(expiry)) {
       console.log("Token expired");
 
@@ -35,7 +33,7 @@ api.interceptors.request.use(
       return config;
     }
 
-    // ✅ Attach token
+    // Attach token
     if (config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -45,7 +43,7 @@ api.interceptors.request.use(
   (error: AxiosError) => Promise.reject(error)
 );
 
-// ✅ Response Interceptor (backup safety)
+// Response Interceptor (backup safety)
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {

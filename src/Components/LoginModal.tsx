@@ -4,13 +4,17 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/authActions";
 import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const LoginModal = ({ onClose }: { onClose: () => void }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // 🔥 error state
+  const navigate = useNavigate();
+
+
+  // error state
   const [errors, setErrors] = useState<{
     username?: string;
     password?: string;
@@ -19,8 +23,15 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
   const dispatch = useDispatch<any>();
   const authState = useSelector((state: any) => state.auth);
 
+  // Fill Passsword for easier testing
+  const fillTestCredentials = () => {
+    setUsername("emilys");
+    setPassword("emilyspass");
+    setErrors({});
+  }
+
   useEffect(() => {
-    // ✅ clear errors on auth change (e.g. after successful login)
+    // clear errors on auth change (e.g. after successful login)
     if (authState.isAuthenticated) {
       setPassword("");
       setUsername("");
@@ -28,7 +39,7 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
     }
   }, [authState.isAuthenticated]);
 
-  // ✅ validation function
+  // validation function
   const validate = () => {
     const newErrors: any = {};
 
@@ -52,7 +63,7 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
 
     if (!validate()) return;
 
-    await dispatch(login(username, password));
+    await dispatch(login(username, password, navigate));
   };
   return (
     <div className="fixed inset-0 w-full h-full bg-black/50 backdrop-blur flex items-center justify-center z-200" onClick={onClose}>
@@ -60,8 +71,19 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
         <h2 className="text-xl font-bold mb-4">Login</h2>
         <h4 className="text-lg font-semibold mb-4">Please enter your credentials</h4>
 
+        <div className="bg-linear-to-t from-sky-500 to-indigo-500 p-2 rounded text-white mb-4 flex items-center justify-center w-full">
+          Fill the test credentials for easier testing:
+          <button
+            type="button"
+            className="text-blue cursor-pointer ml-2 underline"
+            onClick={fillTestCredentials}
+          >
+            Fill
+          </button>
+        </div>
+
         {authState.error && (
-          <div className="text-red-500 text-sm mb-4 flex items-center justify-center w-full">
+          <div className="text-red-500 text-sm mb-4 flex items-center justify-center">
             Login failed. Please Try Again!!
           </div>
         )}

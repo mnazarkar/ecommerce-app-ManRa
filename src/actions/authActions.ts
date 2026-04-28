@@ -8,9 +8,11 @@ import {
   HIDE_LOADER
 } from "../types";
 import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
+
 
 export const login =
-  (username: string, password: string) =>
+  (username: string, password: string, navigate: ReturnType<typeof useNavigate>) =>
   async (dispatch: Dispatch) => {
     dispatch({ type: SHOW_LOADER });
 
@@ -28,6 +30,7 @@ export const login =
         type: LOGIN_SUCCESS,
         payload: data,
       });
+      navigate("/");
       dispatch({ type: HIDE_LOADER });
     } catch (err: any) {
       dispatch({
