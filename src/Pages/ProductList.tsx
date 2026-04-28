@@ -134,12 +134,12 @@ const ProductList = () => {
         <p className="text-center py-10">No products found</p>
       )}
 
-      <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="lg:p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
         {productList.map((p: any) => (
           <div
             key={p.id}
             onClick={() => navigate(`/product/${p.id}`)}
-            className="border p-4 rounded cursor-pointer hover:shadow-lg transition"
+            className="bg-white rounded-xl shadow-md p-3 cursor-pointer hover:shadow-xl transition"
           >
             <img
               src={p.thumbnail}
@@ -187,7 +187,7 @@ const ProductList = () => {
 };
 const skeletonView = () => {
   return (
-    <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div className="lg:p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
           {Array.from({ length: 12 }).map((_, i) => (
             <div key={i} className="space-y-2 animate-pulse">
               <div className="h-40 bg-gray-300 rounded" />
