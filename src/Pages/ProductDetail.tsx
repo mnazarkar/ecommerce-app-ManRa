@@ -86,7 +86,7 @@ const ProductDetail = () => {
           </span>
         </p>
 
-        <button className="mt-4 bg-black text-white px-4 py-2 rounded">
+        <button className="mt-4 bg-linear-to-bl from-violet-500 to-fuchsia-500 text-white px-4 py-2 rounded">
           Add to Cart
         </button>
       </div>

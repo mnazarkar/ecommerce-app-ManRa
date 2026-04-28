@@ -71,11 +71,11 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
         <h2 className="text-xl font-bold mb-4">Login</h2>
         <h4 className="text-lg font-semibold mb-4">Please enter your credentials</h4>
 
-        <div className="bg-linear-to-t from-sky-500 to-indigo-500 p-2 rounded text-white mb-4 flex items-center justify-center w-full">
-          Fill the test credentials for easier testing:
+        <div className="bg-linear-to-t from-sky-500 to-indigo-500 p-2 rounded text-white mb-4 flex items-center justify-center gap-4 lg:gap-6 w-full">
+          You are logging into a simulated environment. To proceed, click ’Fill’ to autofill the test login credentials.
           <button
             type="button"
-            className="text-blue cursor-pointer ml-2 underline"
+            className="text-purple-900 cursor-pointer ml-2 underline"
             onClick={fillTestCredentials}
           >
             Fill

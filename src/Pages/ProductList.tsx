@@ -32,17 +32,17 @@ const ProductList = () => {
 
   const totalPages = Math.ceil(totalProducts / LIMIT);
 
-  // 🔁 Scroll to top on page change
+  // Scroll to top on page change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
 
-  // 🔁 Reset page when filters change
+  // Reset page when filters change
   useEffect(() => {
     setPage(1);
   }, [category, query, sortBy, order]);
 
-  // 🔥 Main API logic
+  // Main API logic
   useEffect(() => {
     const skip = (page - 1) * LIMIT;
 
@@ -61,7 +61,7 @@ const ProductList = () => {
 
   return (
     <div className="p-6">
-      {/* 🔝 Header */}
+      {/* Header */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
         <h2 className="text-lg font-semibold">
           {query
@@ -71,7 +71,7 @@ const ProductList = () => {
             : "All Products"}
         </h2>
 
-        {/* 🔽 Sort */}
+        {/* Sort */}
         <div className="flex gap-2">
           <select
             value={sortBy}
@@ -133,7 +133,7 @@ const ProductList = () => {
         ))}
       </div>
 
-      {/* 🔢 Pagination */}
+      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center mt-8 gap-2 flex-wrap items-center">
           {/* Prev */}
@@ -157,7 +157,7 @@ const ProductList = () => {
                 onClick={() => setPage(p)}
                 className={`px-3 py-1 border cursor-pointer ${
                   page === p
-                    ? "bg-black text-white"
+                    ? "bg-linear-to-bl from-violet-500 to-fuchsia-500 text-white"
                     : "bg-white"
                 }`}
               >

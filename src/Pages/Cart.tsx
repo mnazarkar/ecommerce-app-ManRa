@@ -143,7 +143,7 @@ const Cart = () => {
           <span>{getTotalQuantity(cartProduct)}</span>
         </div>
 
-        <button className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition cursor-pointer">
+        <button className="w-full bg-linear-to-bl from-violet-500 to-fuchsia-500 text-white py-2 rounded hover:bg-gray-800 transition cursor-pointer">
           Proceed to Checkout
         </button>
       </div>
