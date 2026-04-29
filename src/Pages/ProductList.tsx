@@ -10,7 +10,7 @@ import {
   fetchProductListByCategory,
   fetchSearchedProductList,
 } from "../actions/productActions";
-import { Star } from "lucide-react";
+import { Star, CircleArrowUp } from "lucide-react";
 import { GradientHeartFilled, GradientHeartOutline } from "./GradientHeart";
 import { toggleWishlist } from "../store/wishlistSlice";
 
@@ -38,6 +38,7 @@ const ProductList = () => {
   const [order, setOrder] = useState("asc");
   const [loading, setLoading] = useState(false);
   const [animatingId, setAnimatingId] = useState<number | null>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -109,6 +110,28 @@ const ProductList = () => {
 
     return () => observer.disconnect();
   }, [loading, hasMore]);
+
+  // Handle Back To Top
+  useEffect(() => {
+  const handleScroll = () => {
+    if (window.scrollY > 300) {
+      setShowBackToTop(true);
+    } else {
+      setShowBackToTop(false);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
 
   const handleWishlistClick = (product: Product) => {
     setAnimatingId(product.id);
@@ -237,6 +260,15 @@ const ProductList = () => {
             No more products
           </p>
         )}
+        {
+          showBackToTop && 
+          <div className="fixed bottom-4 right-4 flex flex-col items-center justify-center">
+            <div className="flex items-center justify-center flex-col bg-linear-to-bl from-violet-500 to-fuchsia-500 w-10 h-10 rounded-full" onClick={scrollToTop}>
+              <CircleArrowUp size={24} className="invert"/>
+            </div>
+            <span className="bg-gradient-to-bl from-violet-500 to-fuchsia-500 bg-clip-text text-transparent">Back To Top</span>
+          </div>
+        }
       </div>
     );
   };
