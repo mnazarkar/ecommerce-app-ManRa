@@ -150,7 +150,7 @@ const ProductDetail = () => {
               className={
                 (product.stock ?? 0) > 10
                   ? "text-green-600"
-                  : "text-red-500"
+                  : "text-red-500 animate-pulse"
               }
             >
               {(product.stock ?? 0) > 10
@@ -165,7 +165,7 @@ const ProductDetail = () => {
             <select
               value={qty}
               onChange={(e) => setQty(Number(e.target.value))}
-              className="ml-2 border px-2 py-1 rounded"
+              className="ml-2 border px-2 py-1 bg-gray-100 rounded-full shadow-sm cursor-pointer"
             >
               {[1, 2, 3, 4, 5].map((q) => (
                 <option key={q}>{q}</option>
@@ -174,7 +174,7 @@ const ProductDetail = () => {
           </div>
 
           {/* CTA */}
-          <button className="w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-bl from-violet-500 to-fuchsia-500 shadow-md hover:scale-[1.02] transition">
+          <button className="w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-bl from-violet-500 to-fuchsia-500 shadow-md hover:scale-[1.02] transition cursor-pointer">
             Add to Cart
           </button>
 

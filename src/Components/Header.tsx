@@ -29,7 +29,7 @@ const Header = () => {
           <Heart size={24} className="invert cursor-pointer"/>
           
           <Link to="/login" className="flex items-center gap-1">
-            <User size={18} className="invert"/>
+            <User size={24} className="invert"/>
             {isAuthenticated ? (
               <span className="hidden sm:block text-white">Hi, {user.firstName}</span>
             ) : (
@@ -38,7 +38,7 @@ const Header = () => {
           </Link>
 
           <Link to="/cart" className="relative flex items-center gap-1">
-            <ShoppingCart size={20} className="invert"/>
+            <ShoppingCart size={24} className="invert"/>
             <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-1.5 rounded-full">
               {cartState.totalQuantity}
             </span>

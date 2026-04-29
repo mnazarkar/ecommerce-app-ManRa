@@ -50,7 +50,7 @@ const SearchBar = () => {
       {/* Search Icon (always visible) */}
       {!open && <Search
         className="cursor-pointer z-10 invert"
-        size={22}
+        size={24}
         onClick={() => setOpen(true)}
       />}
 
@@ -85,14 +85,14 @@ const SearchBar = () => {
             {/* Left icon inside input */}
             <Search
               className="absolute left-3 text-gray-500 cursor-pointer"
-              size={18}
+              size={24}
               onClick={handleSubmit}
             />
 
             {/* Close icon */}
             <X
               className="absolute right-3 cursor-pointer text-gray-500"
-              size={18}
+              size={24}
               onClick={() => {
                 setOpen(false);
                 setQuery("");
