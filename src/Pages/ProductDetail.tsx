@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import api from "../api/axios";
 import { Star } from "lucide-react";
 import Recommendations from "../Components/Recommendations";
+import { GradientHeartFilled, GradientHeartOutline } from "./GradientHeart";
+import { toggleWishlist } from "../store/wishlistSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 interface Review {
   rating: number;
@@ -29,6 +32,19 @@ const ProductDetail = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [activeImage, setActiveImage] = useState(0);
   const [qty, setQty] = useState(1);
+  const [animate, setAnimate] = useState(false);
+  const dispatch = useDispatch();
+  const wishlist = useSelector((state: any) => state.wishlist);
+
+  const isWishlisted = (id: number) =>
+    wishlist.some((item: any) => item.id === id);
+
+    const handleWishlistClick = (product: Product) => {
+      setAnimate(true);
+      dispatch(toggleWishlist(product));
+  
+      setTimeout(() => setAnimate(false), 200);
+    };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -89,7 +105,20 @@ const ProductDetail = () => {
 
         {/* DETAILS */}
         <div className="space-y-4">
-          <h1 className="text-2xl font-bold">{product.title}</h1>
+          <div className="flex flex-row items-center justify-between">
+            <h1 className="text-2xl font-bold">{product.title}</h1>
+            <span className={`cursor-pointer transition-all duration-300
+                  ${(animate && isWishlisted(product.id)) ? "scale-115" : "scale-100"}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleWishlistClick(product);
+              }}
+            >{isWishlisted(product.id) ? (
+              <GradientHeartFilled />
+            ) : (
+              <GradientHeartOutline />
+            )}</span>
+          </div>
 
           <p className="text-gray-500">{product.brand}</p>
 
@@ -158,6 +187,7 @@ const ProductDetail = () => {
         title="Frequently Bought Together"
         category={product.category}
         limit={5}
+        random={Math.floor(Math.random() * 80)}
       />
 
       {/* SIMILAR PRODUCTS */}
@@ -165,10 +195,11 @@ const ProductDetail = () => {
         title="Similar Products"
         category={product.category}
         limit={8}
+        random={Math.floor(Math.random() * 80)}
       />
 
       {/* RANDOM RECOMMENDATIONS */}
-      <Recommendations title="You May Also Like" random />
+      <Recommendations title="You May Also Like" random={Math.floor(Math.random() * 80)} />
 
       {/* REVIEWS */}
       <div>

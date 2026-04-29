@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart, User } from "lucide-react";
+import { ShoppingCart, User, Heart } from "lucide-react";
 import SearchBar from "./SearchBar";
 import { useSelector } from "react-redux";
 import Navbar from "./Navbar";
@@ -26,6 +26,7 @@ const Header = () => {
           <div className="">
             <SearchBar />
           </div>
+          <Heart size={24} className="invert cursor-pointer"/>
           
           <Link to="/login" className="flex items-center gap-1">
             <User size={18} className="invert"/>
