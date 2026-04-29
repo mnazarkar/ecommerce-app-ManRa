@@ -25,7 +25,7 @@ const wishlistSlice = createSlice({
   initialState: initialState,
   reducers: {
     toggleWishlist: (state, action) => {
-      const exists = state.find((item) => item?.id === action.payload.id);
+      const exists = state.find((item) => item.id === action.payload.id);
 
       let updated;
       if (exists) {

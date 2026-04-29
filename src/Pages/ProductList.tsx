@@ -14,6 +14,13 @@ import { Star } from "lucide-react";
 import { GradientHeartFilled, GradientHeartOutline } from "./GradientHeart";
 import { toggleWishlist } from "../store/wishlistSlice";
 
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+  thumbnail: string;
+};
+
 const LIMIT = 20;
 
 const ProductList = () => {
@@ -30,6 +37,7 @@ const ProductList = () => {
   const [sortBy, setSortBy] = useState("title");
   const [order, setOrder] = useState("asc");
   const [loading, setLoading] = useState(false);
+  const [animatingId, setAnimatingId] = useState<number | null>(null);
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -102,6 +110,13 @@ const ProductList = () => {
     return () => observer.disconnect();
   }, [loading, hasMore]);
 
+  const handleWishlistClick = (product: Product) => {
+  setAnimatingId(product.id);
+  dispatch(toggleWishlist(product));
+
+  setTimeout(() => setAnimatingId(null), 200);
+};
+
   // UI
   const PLPView = () => {
   return (
@@ -162,10 +177,14 @@ const ProductList = () => {
                   {p.rating}
                 </span>
               </span>
-              <span className="absolute top-2 right-2 p-1 text-sm rounded-full bg-black/10"
+              <span
+                className={`absolute top-2 right-2 p-1 rounded-full bg-black/10 cursor-pointer
+                  transition-all duration-300
+                  ${(animatingId === p.id && isWishlisted(p.id)) ? "scale-115" : "scale-100"}
+                `}
                 onClick={(e) => {
                   e.stopPropagation();
-                  dispatch(toggleWishlist(p));
+                  handleWishlistClick(p);
                 }}
               >
                 {isWishlisted(p.id) ? (
