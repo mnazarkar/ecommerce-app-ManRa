@@ -10,6 +10,9 @@ import {
   fetchProductListByCategory,
   fetchSearchedProductList,
 } from "../actions/productActions";
+import { Star } from "lucide-react";
+import { GradientHeartFilled, GradientHeartOutline } from "./GradientHeart";
+import { toggleWishlist } from "../store/wishlistSlice";
 
 const LIMIT = 20;
 
@@ -17,6 +20,10 @@ const ProductList = () => {
   const { products, totalProducts } = useSelector(
     (state: any) => state.product
   );
+  const wishlist = useSelector((state: any) => state.wishlist);
+
+  const isWishlisted = (id: number) =>
+  wishlist.some((item: any) => item.id === id);
 
   const [productList, setProductList] = useState<any[]>([]);
   const [page, setPage] = useState(1);
@@ -102,7 +109,7 @@ const ProductList = () => {
       <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
         <h2 className="text-lg font-semibold">
           {query
-            ? `Search: ${query}`
+            ? `Searched Results: ${query}`
             : category
             ? `Category: ${category}`
             : "All Products"}
@@ -134,19 +141,40 @@ const ProductList = () => {
         <p className="text-center py-10">No products found</p>
       )}
 
-      <div className="lg:p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="lg:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
         {productList.map((p: any) => (
           <div
             key={p.id}
             onClick={() => navigate(`/product/${p.id}`)}
             className="bg-white rounded-xl shadow-md p-3 cursor-pointer hover:shadow-xl transition"
           >
-            <img
-              src={p.thumbnail}
-              alt={p.title}
-              className="h-40 w-full object-cover rounded"
-              loading="lazy"
-            />
+            <div className="relative">
+              <img
+                src={p.thumbnail}
+                alt={p.title}
+                className="h-50 w-full object-cover rounded"
+                loading="lazy"
+              />
+              <span className="absolute bottom-2 left-2 px-1 text-sm rounded bg-white/80">
+                <span className="flex flex-row items-center justify-center gap-1 bg-gradient-to-bl from-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
+                  <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
+                  <span className="text-black">|</span>
+                  {p.rating}
+                </span>
+              </span>
+              <span className="absolute top-2 right-2 p-1 text-sm rounded-full bg-white/80"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(toggleWishlist(p));
+                }}
+              >
+                {isWishlisted(p.id) ? (
+                  <GradientHeartFilled />
+                ) : (
+                  <GradientHeartOutline />
+                )}
+              </span>
+            </div>
             <h3 className="mt-2 font-semibold line-clamp-2">
               {p.title}
             </h3>
@@ -155,9 +183,6 @@ const ProductList = () => {
             </p>
             <div className="flex justify-between mt-2">
               <span className="font-bold">₹{p.price}</span>
-              <span className="text-yellow-500">
-                ⭐ {p.rating}
-              </span>
             </div>
           </div>
         ))}
@@ -187,7 +212,7 @@ const ProductList = () => {
 };
 const skeletonView = () => {
   return (
-    <div className="lg:p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div className="lg:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
           {Array.from({ length: 12 }).map((_, i) => (
             <div key={i} className="space-y-2 animate-pulse">
               <div className="h-40 bg-gray-300 rounded" />

@@ -75,7 +75,7 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
           You are logging into a simulated environment. To proceed, click ’Fill’ to autofill the test login credentials.
           <button
             type="button"
-            className="text-purple-900 cursor-pointer ml-2 underline"
+            className="text-purple-900 cursor-pointer ml-2 underline animate-bounce"
             onClick={fillTestCredentials}
           >
             Fill
