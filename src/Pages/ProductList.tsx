@@ -155,14 +155,14 @@ const ProductList = () => {
                 className="h-50 w-full object-cover rounded"
                 loading="lazy"
               />
-              <span className="absolute bottom-2 left-2 px-1 text-sm rounded bg-white/80">
+              <span className="absolute bottom-2 left-2 px-1 text-sm rounded bg-black/10">
                 <span className="flex flex-row items-center justify-center gap-1 bg-gradient-to-bl from-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
                   <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
                   <span className="text-black">|</span>
                   {p.rating}
                 </span>
               </span>
-              <span className="absolute top-2 right-2 p-1 text-sm rounded-full bg-white/80"
+              <span className="absolute top-2 right-2 p-1 text-sm rounded-full bg-black/10"
                 onClick={(e) => {
                   e.stopPropagation();
                   dispatch(toggleWishlist(p));
