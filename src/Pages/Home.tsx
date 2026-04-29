@@ -17,6 +17,7 @@ import {
   Dumbbell,
 } from "lucide-react";
 import Footer from "../Components/Footer";
+import ProductCard from "../Components/ProductCard";
 
 type Product = {
   id: number;
@@ -111,7 +112,7 @@ const HomePage = () => {
 
       <Carousel />
 
-      <div className="px-4 grid md:grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
         <div
           onClick={() => navigate("/products")}
           className="bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white p-6 rounded-2xl shadow cursor-pointer"
@@ -137,7 +138,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="space-y-8 px-4">
+      <div className="space-y-8">
         {categorySections.map((section) => (
           <div key={section.title}>
             <h2 className="text-xl font-semibold mb-4">
@@ -170,7 +171,7 @@ const HomePage = () => {
         ))}
       </div>
 
-      <div className="px-4">
+      <div>
         <h2 className="text-xl font-semibold mb-4">
           Featured Products
         </h2>
@@ -180,29 +181,13 @@ const HomePage = () => {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {featuredProducts.map((p) => (
-              <div
-                key={p.id}
-                onClick={() => navigate(`/product/${p.id}`)}
-                className="bg-white rounded-xl shadow-md p-3 cursor-pointer hover:shadow-xl transition"
-              >
-                <img
-                  src={p.thumbnail}
-                  alt={p.title}
-                  className="h-40 w-full object-cover rounded mb-2"
-                />
-                <p className="text-sm font-medium line-clamp-2">
-                  {p.title}
-                </p>
-                <p className="text-sm font-bold mt-1">
-                  ₹{p.price}
-                </p>
-              </div>
+              <ProductCard p={p} />
             ))}
           </div>
         )}
       </div>
 
-      <div className="px-4">
+      <div>
         <div className="bg-gradient-to-r from-black to-gray-800 text-white rounded-2xl p-6 shadow">
           <h2 className="text-xl font-semibold mb-2 bg-gradient-to-bl from-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
             Discover More
