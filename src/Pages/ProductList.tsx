@@ -167,7 +167,7 @@ const ProductList = () => {
                 <img
                   src={p.thumbnail}
                   alt={p.title}
-                  className="h-60 w-full object-fill group-hover:scale-110 transition duration-500"
+                  className="h-60 w-full object-fill md:group-hover:scale-110 transition duration-500"
                   loading="lazy"
                 />
                 <span className="absolute bottom-2 left-2 px-1 text-sm rounded bg-black/10">
@@ -194,7 +194,7 @@ const ProductList = () => {
                   )}
                 </span>
               </div>
-              <h3 className="font-medium line-clamp-2 group-hover:bg-gradient-to-bl from-violet-500 to-fuchsia-500 group-hover:bg-clip-text group-hover:text-transparent transition">
+              <h3 className="font-medium line-clamp-2 md:group-hover:bg-gradient-to-bl from-violet-500 to-fuchsia-500 md:group-hover:bg-clip-text md:group-hover:text-transparent transition">
                 {p.title}
               </h3>
               <p className="text-gray-500 text-sm capitalize">
