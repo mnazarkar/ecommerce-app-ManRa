@@ -30,7 +30,7 @@ const ProductList = () => {
   const wishlist = useSelector((state: any) => state.wishlist);
 
   const isWishlisted = (id: number) =>
-  wishlist.some((item: any) => item.id === id);
+    wishlist.some((item: any) => item.id === id);
 
   const [productList, setProductList] = useState<any[]>([]);
   const [page, setPage] = useState(1);
@@ -56,11 +56,11 @@ const ProductList = () => {
 
     const timer = setTimeout(() => {
       setProductList((prev) => {
-      const newList =
-        page === 1 ? products : [...prev, ...products];
-      return newList;
-    });
-    setLoading(false);
+        const newList =
+          page === 1 ? products : [...prev, ...products];
+        return newList;
+      });
+      setLoading(false);
     }, 2000);
     return () => clearTimeout(timer);
   }, [products]);
@@ -111,148 +111,159 @@ const ProductList = () => {
   }, [loading, hasMore]);
 
   const handleWishlistClick = (product: Product) => {
-  setAnimatingId(product.id);
-  dispatch(toggleWishlist(product));
+    setAnimatingId(product.id);
+    dispatch(toggleWishlist(product));
 
-  setTimeout(() => setAnimatingId(null), 200);
-};
+    setTimeout(() => setAnimatingId(null), 200);
+  };
 
   // UI
   const PLPView = () => {
-  return (
-    <div>
-      <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
-        <h2 className="text-lg font-semibold">
-          {query
-            ? `Searched Results: ${query}`
-            : category
-            ? `Category: ${category}`
-            : "All Products"}
-        </h2>
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
+          <h2 className="text-xl font-bold">
+            {query
+              ? `Search: ${query}`
+              : category
+                ? category
+                : "All Products"}
+          </h2>
 
-        <div className="flex gap-2">
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="border px-2 py-1 rounded"
-          >
-            <option value="title">Title</option>
-            <option value="price">Price</option>
-            <option value="rating">Rating</option>
-          </select>
+          <div className="flex gap-2">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="flex items-center gap-1 px-3 py-1 bg-gray-100 rounded-full shadow-sm"
+            >
+              <option value="title">Title</option>
+              <option value="price">Price</option>
+              <option value="rating">Rating</option>
+            </select>
 
-          <select
-            value={order}
-            onChange={(e) => setOrder(e.target.value)}
-            className="border px-2 py-1 rounded"
-          >
-            <option value="asc">Asc</option>
-            <option value="desc">Desc</option>
-          </select>
+            <select
+              value={order}
+              onChange={(e) => setOrder(e.target.value)}
+              className="flex items-center gap-1 px-3 py-1 bg-gray-100 rounded-full shadow-sm"
+            >
+              <option value="asc">Asc</option>
+              <option value="desc">Desc</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      {!loading && productList.length === 0 && (
-        <p className="text-center py-10">No products found</p>
-      )}
+        {!loading && productList.length === 0 && (
+          <p className="text-center py-10">No products found</p>
+        )}
 
-      <div className="lg:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-        {productList.map((p: any) => (
-          <div
-            key={p.id}
-            onClick={() => navigate(`/product/${p.id}`)}
-            className="bg-white rounded-xl shadow-md p-3 cursor-pointer hover:shadow-xl transition"
-          >
-            <div className="relative">
-              <img
-                src={p.thumbnail}
-                alt={p.title}
-                className="h-50 w-full object-cover rounded"
-                loading="lazy"
-              />
-              <span className="absolute bottom-2 left-2 px-1 text-sm rounded bg-black/10">
-                <span className="flex flex-row items-center justify-center gap-1 bg-gradient-to-bl from-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
-                  <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
-                  <span className="text-black">|</span>
-                  {p.rating}
+        <div className="lg:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+          {productList.map((p: any) => (
+            <div
+              key={p.id}
+              onClick={() => navigate(`/product/${p.id}`)}
+              className="group bg-white rounded-2xl overflow-hidden shadow-md p-3 cursor-pointer shadow hover:shadow-2xl transition duration-300"
+            >
+              <div className="relative overflow-hidden">
+                <img
+                  src={p.thumbnail}
+                  alt={p.title}
+                  className="h-60 w-full object-fill group-hover:scale-110 transition duration-500"
+                  loading="lazy"
+                />
+                <span className="absolute bottom-2 left-2 px-1 text-sm rounded bg-black/10">
+                  <span className="flex flex-row items-center justify-center gap-1 bg-gradient-to-bl from-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
+                    <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
+                    <span className="text-black">|</span>
+                    {p.rating}
+                  </span>
                 </span>
-              </span>
-              <span
-                className={`absolute top-2 right-2 p-1 rounded-full bg-black/10 cursor-pointer
+                <span
+                  className={`absolute top-2 right-2 p-1 rounded-full bg-black/10 cursor-pointer
                   transition-all duration-300
                   ${(animatingId === p.id && isWishlisted(p.id)) ? "scale-115" : "scale-100"}
                 `}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleWishlistClick(p);
-                }}
-              >
-                {isWishlisted(p.id) ? (
-                  <GradientHeartFilled />
-                ) : (
-                  <GradientHeartOutline />
-                )}
-              </span>
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleWishlistClick(p);
+                  }}
+                >
+                  {isWishlisted(p.id) ? (
+                    <GradientHeartFilled />
+                  ) : (
+                    <GradientHeartOutline />
+                  )}
+                </span>
+              </div>
+              <h3 className="font-medium line-clamp-2 group-hover:bg-gradient-to-bl from-violet-500 to-fuchsia-500 group-hover:bg-clip-text group-hover:text-transparent transition">
+                {p.title}
+              </h3>
+              <p className="text-gray-500 text-sm capitalize">
+                {p.category}
+              </p>
+              <div className="flex items-start gap-2 flex-col mt-2">
+                <div className="flex gap-2 items-center justify-center">
+                  <span className="text-gray-400 line-through text-sm">
+                    ₹{p.price.toFixed(2)}
+                  </span>
+                  <span className="text-green-600 text-xs font-medium">
+                    {p.discountPercentage}% OFF
+                  </span>
+                </div>
+                <span className="text-lg font-bold text-black">
+                  ₹{(p.price - (p.price * p.discountPercentage) / 100).toFixed(2)}
+                </span>
+
+              </div>
             </div>
-            <h3 className="mt-2 font-semibold line-clamp-2">
-              {p.title}
-            </h3>
-            <p className="text-gray-500 text-sm capitalize">
-              {p.category}
-            </p>
-            <div className="flex justify-between mt-2">
-              <span className="font-bold">₹{p.price}</span>
-            </div>
+          ))}
+        </div>
+
+        {loading && (
+          <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="space-y-2 animate-pulse">
+                <div className="h-40 bg-gray-300 rounded" />
+                <div className="h-4 bg-gray-300 rounded w-3/4" />
+                <div className="h-4 bg-gray-300 rounded w-1/2" />
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div ref={observerRef} className="h-10" />
+
+        {!hasMore && productList.length > 0 && (
+          <p className="text-center my-4 text-gray-500">
+            No more products
+          </p>
+        )}
+      </div>
+    );
+  };
+  const skeletonView = () => {
+    return (
+      <div className="lg:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+        {Array.from({ length: 12 }).map((_, i) => (
+          <div key={i} className="space-y-2 animate-pulse">
+            <div className="h-40 bg-gray-300 rounded" />
+            <div className="h-4 bg-gray-300 rounded w-3/4" />
+            <div className="h-4 bg-gray-300 rounded w-1/2" />
           </div>
         ))}
       </div>
+    );
+  };
 
-      {loading && (
-        <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-6">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="space-y-2 animate-pulse">
-              <div className="h-40 bg-gray-300 rounded" />
-              <div className="h-4 bg-gray-300 rounded w-3/4" />
-              <div className="h-4 bg-gray-300 rounded w-1/2" />
-            </div>
-          ))}
-        </div>
-      )}
+  const getView = () => {
+    if (productList.length === 0) {
+      return skeletonView();
+    }
+    return PLPView();
+  };
 
-      <div ref={observerRef} className="h-10" />
-
-      {!hasMore && productList.length > 0 && (
-        <p className="text-center my-4 text-gray-500">
-          No more products
-        </p>
-      )}
-    </div>
-  );
-};
-const skeletonView = () => {
   return (
-    <div className="lg:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="space-y-2 animate-pulse">
-              <div className="h-40 bg-gray-300 rounded" />
-              <div className="h-4 bg-gray-300 rounded w-3/4" />
-              <div className="h-4 bg-gray-300 rounded w-1/2" />
-            </div>
-          ))}
-        </div>
+    getView()
   );
-};
-
-const getView = () => {
-  if (productList.length === 0) {
-    return skeletonView();
-  }
-  return PLPView();
-};
-
-return (
-  getView()
-);
 };
 
 export default ProductList;
