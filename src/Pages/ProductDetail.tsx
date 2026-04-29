@@ -167,8 +167,8 @@ const ProductDetail = () => {
               onChange={(e) => setQty(Number(e.target.value))}
               className="ml-2 border px-2 py-1 bg-gray-100 rounded-full shadow-sm cursor-pointer"
             >
-              {[1, 2, 3, 4, 5].map((q) => (
-                <option key={q}>{q}</option>
+              {Array.from({ length: Number(product.stock) }).map((_,i) => (
+                <option key={i}>{i+1}</option>
               ))}
             </select>
           </div>
