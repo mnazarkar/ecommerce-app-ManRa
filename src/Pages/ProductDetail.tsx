@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/axios";
+import { Star } from "lucide-react";
+import Recommendations from "../Components/Recommendations";
 
 interface Review {
   rating: number;
@@ -13,6 +15,7 @@ interface Product {
   title: string;
   description: string;
   price: number;
+  discountPercentage: number;
   rating: number;
   stock?: number;
   brand: string;
@@ -24,115 +27,163 @@ interface Product {
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
+  const [activeImage, setActiveImage] = useState(0);
+  const [qty, setQty] = useState(1);
 
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await api.get(`/products/${id}`);
-      setTimeout(() => {
-        setProduct(res.data);
-      }, 2000);
+      setTimeout(() => setProduct(res.data), 800);
     };
-
     fetchProduct();
   }, [id]);
 
-  const getSkeletonView = () => {
-      return (
-      <div className="grid md:grid-cols-2 gap-6 animate-pulse">
-        <div className="h-80 bg-gray-300 rounded" />
-        <div className="flex gap-2 mt-2 overflow-x-auto">
-          <div className="h-16 w-16 bg-gray-300 rounded" />
-          <div className="h-16 w-16 bg-gray-300 rounded" />
-          <div className="h-16 w-16 bg-gray-300 rounded" />
-          <div className="h-16 w-16 bg-gray-300 rounded" />
-          <div className="h-16 w-16 bg-gray-300 rounded" />
-        </div>
+  if (!product) {
+    return (
+      <div className="animate-pulse grid md:grid-cols-2 gap-6">
+        <div className="h-96 bg-gray-300 rounded-xl" />
         <div className="space-y-4">
-          <div className="h-6 bg-gray-300 rounded w-1/2" />
-          <div className="h-4 bg-gray-300 rounded w-3/4" />
-          <div className="h-4 bg-gray-300 rounded w-1/3" />
-          <div className="h-10 bg-gray-300 rounded w-1/2" />
+          <div className="h-6 bg-gray-300 w-1/2 rounded" />
+          <div className="h-4 bg-gray-300 w-3/4 rounded" />
         </div>
       </div>
     );
-  };
+  }
 
-  const getPDPView = () => {
+  const finalPrice =
+    product.price -
+    (product.price * product.discountPercentage) / 100;
+
   return (
-    <div className="grid md:grid-cols-2 gap-6">
-      {/* Images */}
-      <div>
-        <img
-          src={product?.images[0]}
-          className="w-full h-80 object-cover rounded"
-        />
+    <div className="space-y-10">
 
-        <div className="flex gap-2 mt-2 overflow-x-auto">
-          {product?.images.map((img, i) => (
+      {/* TOP SECTION */}
+      <div className="grid md:grid-cols-2 gap-8">
+
+        {/* IMAGE GALLERY */}
+        <div>
+          <div className="overflow-hidden rounded-2xl shadow-md">
             <img
-              key={i}
-              src={img}
-              className="w-16 h-16 object-cover rounded border"
+              src={product.images[activeImage]}
+              className="w-full h-[400px] object-cover transition duration-500 hover:scale-105"
             />
-          ))}
+          </div>
+
+          {/* THUMBNAILS */}
+          <div className="flex gap-3 mt-3 overflow-x-auto">
+            {product.images.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                onClick={() => setActiveImage(i)}
+                className={`w-16 h-16 object-cover rounded cursor-pointer transition
+                ${
+                  activeImage === i
+                    ? "ring-2 ring-violet-500"
+                    : "opacity-70 hover:opacity-100"
+                }`}
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Details */}
-      <div>
-        <h1 className="text-2xl font-bold">{product?.title}</h1>
+        {/* DETAILS */}
+        <div className="space-y-4">
+          <h1 className="text-2xl font-bold">{product.title}</h1>
 
-        <p className="text-gray-500 mt-1">{product?.brand}</p>
+          <p className="text-gray-500">{product.brand}</p>
 
-        <p className="mt-3">{product?.description}</p>
+          {/* PRICE */}
+          <div className="flex items-center gap-3">
+            <span className="text-gray-400 line-through">
+              ₹{product.price}
+            </span>
 
-        <div className="mt-4 flex items-center gap-4">
-          <span className="text-xl font-bold">
-            ₹{product?.price}
-          </span>
-          <span className="text-yellow-500">
-            ⭐ {product?.rating}
-          </span>
-        </div>
+            <span className="text-green-600 text-sm font-semibold">
+              {product.discountPercentage}% OFF
+            </span>
 
-        <p className="mt-2 text-sm">
-          Stock:{" "}
-          <span
-            className={
-              (product?.stock ?? 0) > 10
-                ? "text-green-600"
-                : "text-red-500"
-            }
-          >
-            {(product?.stock ?? 0) > 10 ? "In Stock" : "Low Stock"}
-          </span>
-        </p>
+            <span className="text-2xl font-bold">
+              ₹{finalPrice.toFixed(2)}
+            </span>
+          </div>
 
-        <button className="mt-4 bg-linear-to-bl from-violet-500 to-fuchsia-500 text-white px-4 py-2 rounded">
-          Add to Cart
-        </button>
-      </div>
+          {/* RATING */}
+          <div className="flex items-center gap-1 text-yellow-500">
+            <Star className="fill-yellow-400" size={18} />
+            {product.rating}
+          </div>
 
-      {/* Reviews */}
-      <div className="md:col-span-2 mt-6">
-        <h2 className="text-xl font-semibold mb-3">
-          Reviews
-        </h2>
-
-        <div className="space-y-3">
-          {product?.reviews.map((review, index) => (
-            <div
-              key={index}
-              className="border p-3 rounded"
+          {/* STOCK */}
+          <p>
+            Stock:{" "}
+            <span
+              className={
+                (product.stock ?? 0) > 10
+                  ? "text-green-600"
+                  : "text-red-500"
+              }
             >
-              <p className="font-semibold">
-                {review.reviewerName}
-              </p>
-              <p className="text-yellow-500">
-                ⭐ {review.rating}
-              </p>
-              <p className="text-sm text-gray-600">
-                {review.comment}
+              {(product.stock ?? 0) > 10
+                ? "In Stock"
+                : "Low Stock"}
+            </span>
+          </p>
+
+          {/* QUANTITY */}
+          <div>
+            <label className="text-sm">Quantity</label>
+            <select
+              value={qty}
+              onChange={(e) => setQty(Number(e.target.value))}
+              className="ml-2 border px-2 py-1 rounded"
+            >
+              {[1, 2, 3, 4, 5].map((q) => (
+                <option key={q}>{q}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* CTA */}
+          <button className="w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-bl from-violet-500 to-fuchsia-500 shadow-md hover:scale-[1.02] transition">
+            Add to Cart
+          </button>
+
+          <p className="text-gray-600">{product.description}</p>
+        </div>
+      </div>
+
+      {/* BUY TOGETHER */}
+      <Recommendations
+        title="Frequently Bought Together"
+        category={product.category}
+        limit={5}
+      />
+
+      {/* SIMILAR PRODUCTS */}
+      <Recommendations
+        title="Similar Products"
+        category={product.category}
+        limit={8}
+      />
+
+      {/* RANDOM RECOMMENDATIONS */}
+      <Recommendations title="You May Also Like" random />
+
+      {/* REVIEWS */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Reviews</h2>
+
+        <div className="space-y-4">
+          {product.reviews.map((r, i) => (
+            <div
+              key={i}
+              className="bg-white shadow-sm rounded-xl p-4"
+            >
+              <p className="font-semibold">{r.reviewerName}</p>
+              <p className="text-yellow-500">⭐ {r.rating}</p>
+              <p className="text-gray-600 text-sm">
+                {r.comment}
               </p>
             </div>
           ))}
@@ -140,16 +191,6 @@ const ProductDetail = () => {
       </div>
     </div>
   );
-};
-
-const getView = () => {
-  if (!product) return getSkeletonView();
-  return getPDPView();
-};
-
-return (
-  getView()
-);
 };
 
 export default ProductDetail;
