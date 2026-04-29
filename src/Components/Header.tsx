@@ -26,7 +26,9 @@ const Header = () => {
           <div className="">
             <SearchBar />
           </div>
-          <Heart size={24} className="invert cursor-pointer"/>
+          <Link to="/wishlist">
+            <Heart size={24} className="invert cursor-pointer"/>
+          </Link>
           
           <Link to="/login" className="flex items-center gap-1">
             <User size={24} className="invert"/>
