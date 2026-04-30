@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/axios";
 import { Star } from "lucide-react";
 import Recommendations from "../Components/Recommendations";
@@ -7,7 +7,6 @@ import { GradientHeartFilled, GradientHeartOutline } from "./GradientHeart";
 import { toggleWishlist } from "../store/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../store/cartSlice";
-import { HIDE_LOADER, SHOW_LOADER } from "../types";
 
 interface Review {
   rating: number;
