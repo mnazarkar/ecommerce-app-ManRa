@@ -67,6 +67,7 @@ const Wishlist = () => {
             No items in wishlist
           </p>
         </div>
+        {showToast && <Toast label={toastLabel} showToastDownAnimation={showToastDownAnimation} handleUndo={() => { }} />}
       </div>
     );
   }
