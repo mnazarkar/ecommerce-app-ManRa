@@ -23,12 +23,24 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
   const dispatch = useDispatch<any>();
   const authState = useSelector((state: any) => state.auth);
 
+  const testUsers = [
+    { username: "emilys", password: "emilyspass" },
+    { username: "michaelw", password: "michaelwpass" },
+    { username: "emmaj", password: "emmajpass" },
+    { username: "alexanderj", password: "alexanderjpass" },
+    { username: "avat", password: "avatpass" },
+    { username: "isabellad", password: "isabelladpass" },
+  ];
+
   // Fill Passsword for easier testing
   const fillTestCredentials = () => {
-    setUsername("emilys");
-    setPassword("emilyspass");
+    const randomUser =
+      testUsers[Math.floor(Math.random() * testUsers.length)];
+
+    setUsername(randomUser.username);
+    setPassword(randomUser.password);
     setErrors({});
-  }
+  };
 
   useEffect(() => {
     // clear errors on auth change (e.g. after successful login)
