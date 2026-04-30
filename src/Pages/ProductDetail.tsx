@@ -97,7 +97,7 @@ const ProductDetail = () => {
 
         {/* IMAGE GALLERY */}
         <div>
-          <div className="overflow-hidden rounded-2xl shadow-md">
+          <div className="overflow-hidden rounded-2xl shadow-md shadow-fuchsia-500/50">
             <img
               src={product.images[activeImage]}
               className="w-full h-[400px] object-cover transition duration-500 hover:scale-105"

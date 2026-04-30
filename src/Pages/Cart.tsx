@@ -158,7 +158,7 @@ const Cart = () => {
             return (
               <div
                 key={product.id}
-                className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-3 flex gap-3"
+                className="bg-white rounded-xl shadow-sm shadow-fuchsia-500/50 hover:shadow-md transition p-3 flex gap-3"
               >
                 {/* IMAGE */}
                 <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
@@ -213,7 +213,7 @@ const Cart = () => {
                         onClick={() =>
                           handleQuantityChange(product.id, product.quantity - 1)
                         }
-                        className={`w-6 h-6 flex items-center justify-center rounded${isMin ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-200 cursor-pointer active:scale-90"}`}
+                        className={`w-6 h-6 flex text-fuchsia-500 items-center justify-center rounded ${isMin ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-200 cursor-pointer active:scale-90"}`}
                       >
                         -
                       </button>
@@ -229,7 +229,7 @@ const Cart = () => {
                         onClick={() =>
                           handleQuantityChange(product.id, product.quantity + 1)
                         }
-                        className={`w-6 h-6 flex items-center justify-center rounded ${isMax ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-200 cursor-pointer active:scale-90"}`}
+                        className={`w-6 h-6 flex items-center text-fuchsia-500 justify-center rounded ${isMax ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-200 cursor-pointer active:scale-90"}`}
                       >
                         +
                       </button>
@@ -248,7 +248,7 @@ const Cart = () => {
         </div>
 
         {/* SUMMARY */}
-        <div className="bg-white rounded-xl shadow-md p-5 h-fit sticky top-20">
+        <div className="bg-white rounded-xl shadow-md shadow-fuchsia-500/50 p-5 h-fit sticky top-20">
 
           <h2 className="text-lg font-semibold mb-4">
             Order Summary
@@ -281,7 +281,7 @@ const Cart = () => {
 
           <div className="flex justify-between font-semibold text-lg">
             <span>Total</span>
-            <span>
+            <span className="text-fuchsia-500">
               ₹{getDiscountedTotal(cartProduct).toFixed(2)}
             </span>
           </div>

@@ -33,7 +33,7 @@ const ProductCard = ({ p, extraClass }: any) => {
         <div
             key={p.id}
             onClick={() => navigate(`/product/${p.id}`)}
-            className={`group bg-white rounded-2xl overflow-hidden shadow-md p-3 cursor-pointer shadow hover:shadow-2xl transition duration-300 min-w-[164px] md:min-w-[240px] min-h-[372px] ${extraClass}`}
+            className={`group bg-white rounded-2xl overflow-hidden shadow-md shadow-fuchsia-500/50 p-3 cursor-pointer shadow hover:shadow-2xl transition duration-300 min-w-[164px] md:min-w-[240px] min-h-[372px] ${extraClass}`}
         >
             <div className="relative overflow-hidden">
                 <img

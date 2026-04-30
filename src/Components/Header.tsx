@@ -8,6 +8,7 @@ const Header = () => {
   const authState = useSelector((state: any) => state.auth);
   const cartState = useSelector((state: any) => state.cartSlice);
   const { isAuthenticated, user } = authState;
+  const cartQuantity = cartState.reduce((sum:any, item:any) => sum + item.quantity, 0);
   return (
     <header className="w-full bg-linear-to-bl from-violet-500 to-fuchsia-500 shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-4 justify-between">
@@ -41,8 +42,8 @@ const Header = () => {
 
           <Link to="/cart" className="relative flex items-center gap-1">
             <ShoppingCart size={24} className="invert"/>
-            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-1.5 rounded-full">
-              {cartState.length}
+            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full">
+              {cartQuantity}
             </span>
           </Link>
         </div>

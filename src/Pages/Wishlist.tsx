@@ -1,8 +1,9 @@
-import { Heart, ShoppingCart } from "lucide-react";
+import { ShoppingCart, Trash2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlist } from "../store/wishlistSlice";
-// import { addToCart } from "../actions/cartActions"; // adjust if needed
+import { addToCart } from "../store/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { HIDE_LOADER, SHOW_LOADER } from "../types";
 
 type Product = {
   id: number;
@@ -17,12 +18,16 @@ const Wishlist = () => {
   const navigate = useNavigate();
 
   const handleRemove = (product: Product) => {
+    dispatch({type: SHOW_LOADER});
     dispatch(toggleWishlist(product));
+    setTimeout(()=>dispatch({type: HIDE_LOADER}),1000);
   };
 
   const handleMoveToCart = (product: Product) => {
-    // dispatch(addToCart(product)); // 👈 your cart action
-    dispatch(toggleWishlist(product)); // remove from wishlist
+    dispatch({type: SHOW_LOADER});
+    dispatch(addToCart({product:product,stock:5,quantity:1}));
+    dispatch(toggleWishlist(product)); 
+    setTimeout(()=>dispatch({type: HIDE_LOADER}),1000);
   };
 
   if (!wishlist.length) {
@@ -40,7 +45,7 @@ const Wishlist = () => {
   }
 
   return (
-    <div className="px-4 lg:px-10 py-6">
+    <div>
 
       <h1 className="text-2xl font-bold mb-6">
         Wishlist ({wishlist.length})
@@ -56,10 +61,10 @@ const Wishlist = () => {
             <div
               key={product.id}
               onClick={() => navigate(`/product/${product.id}`)}
-              className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-3 flex gap-3 cursor-pointer"
+              className="bg-white rounded-xl shadow-md shadow-fuchsia-500/50 hover:shadow-xl transition p-3 flex gap-3 cursor-pointer"
             >
               {/* IMAGE */}
-              <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="w-25 h-25 rounded-lg overflow-hidden flex-shrink-0">
                 <img
                   src={product.thumbnail}
                   className="w-full h-full object-cover"
@@ -72,13 +77,13 @@ const Wishlist = () => {
                 {/* TITLE + ACTIONS */}
                 <div className="flex justify-between gap-2">
 
-                  <h3 className="font-medium text-sm line-clamp-2">
+                  <h3 className="font-medium text-md font-bold line-clamp-2">
                     {product.title}
                   </h3>
 
                   <div className="flex items-center gap-2">
 
-                    {/* ❤️ REMOVE */}
+                    {/* REMOVE */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -86,40 +91,44 @@ const Wishlist = () => {
                       }}
                       className="text-red-500 hover:scale-110 active:scale-90 transition cursor-pointer"
                     >
-                      <Heart
-                        size={18}
-                        className="fill-red-500 text-red-500"
+                      <Trash2
+                        size={24}
+                        className="text-red-500"
                       />
-                    </button>
-
-                    {/* 🛒 MOVE TO CART */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleMoveToCart(product);
-                      }}
-                      className="text-gray-600 hover:text-black hover:scale-110 active:scale-90 transition cursor-pointer"
-                    >
-                      <ShoppingCart size={18} />
                     </button>
 
                   </div>
                 </div>
 
                 {/* PRICE */}
-                <div className="flex items-center gap-2 flex-wrap mt-1">
+                <div className="flex items-end justify-between gap-4 flex-wrap mt-1">
 
-                  <span className="text-gray-400 line-through text-xs">
-                    ₹{product.price.toFixed(2)}
-                  </span>
+                  <div className="flex flex-col justify-center items-start gap-2">
+                    <div className="flex justify-center items center gap-4">
+                      <span className="text-gray-400 line-through text-sm">
+                        ₹{product.price.toFixed(2)}
+                      </span>
 
-                  <span className="text-green-600 text-xs font-semibold">
-                    SAVE ₹{discount.toFixed(2)}
-                  </span>
+                      <span className="text-green-600 text-sm font-semibold">
+                        SAVE ₹{discount.toFixed(2)}
+                      </span>
+                    </div>
 
-                  <span className="font-semibold text-sm">
-                    ₹{discountedPrice.toFixed(2)}
-                  </span>
+                    <span className="font-bold text-lg">
+                      ₹{discountedPrice.toFixed(2)}
+                    </span>
+                  </div>
+
+                  {/* MOVE TO CART */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleMoveToCart(product);
+                    }}
+                    className="text-gray-600 hover:text-black hover:scale-110 active:scale-90 transition cursor-pointer"
+                  >
+                    <ShoppingCart size={24} className="text-fuchsia-500" />
+                  </button>
 
                 </div>
 

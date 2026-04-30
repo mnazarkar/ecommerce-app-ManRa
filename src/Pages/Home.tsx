@@ -155,7 +155,7 @@ const HomePage = () => {
                     onClick={() =>
                       navigate(`/products/${cat.name}`)
                     }
-                    className="bg-white shadow-md rounded-xl p-4 flex flex-col items-center cursor-pointer hover:shadow-xl transition"
+                    className="bg-white shadow-md shadow-fuchsia-500/50 rounded-xl p-4 flex flex-col items-center cursor-pointer hover:shadow-xl transition"
                   >
                     <div className="bg-gray-100 p-3 rounded-full mb-2">
                       <Icon size={22} />
