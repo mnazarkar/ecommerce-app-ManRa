@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { removeFromCart, updateQuantity, addToCart } from "../store/cartSlice";
+import { HIDE_LOADER, SHOW_LOADER } from "../types";
 
 type CartItem = {
   id: number;
@@ -90,6 +91,7 @@ const Cart = () => {
 
   // REMOVE
   const handleRemove = (id: number) => {
+    dispatch({type: SHOW_LOADER});
     const itemToDelete = cartProduct.find((p) => p.id === id);
     if (!itemToDelete) return;
 
@@ -99,7 +101,10 @@ const Cart = () => {
     dispatch(removeFromCart(id));
 
     setDeletedItem(itemToDelete);
-    setShowToast(true);
+    setTimeout(() => {
+      dispatch({type: HIDE_LOADER});
+      setShowToast(true);
+    },1000)
 
     // Clear previous timeout if any
     if (timeoutRef.current) {
@@ -115,6 +120,7 @@ const Cart = () => {
 
   const handleUndo = () => {
     if (!deletedItem) return;
+    dispatch({type: SHOW_LOADER});
 
     const updated = [deletedItem, ...cartProduct];
 
@@ -122,6 +128,7 @@ const Cart = () => {
     dispatch(addToCart({product:deletedItem,stock:deletedItem.stock,quantity:getTotalQuantity(updated)}));
 
     setDeletedItem(null);
+    setTimeout(()=>{dispatch({type: HIDE_LOADER});},1000)
     setShowToast(false);
 
     // Clear timeout on undo

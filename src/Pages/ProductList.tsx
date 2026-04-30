@@ -47,7 +47,7 @@ const ProductList = () => {
         return newList;
       });
       setLoading(false);
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [products]);
 

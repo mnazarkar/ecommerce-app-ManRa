@@ -86,7 +86,7 @@ const Recommendations = ({
           ${canScrollLeft ? "bg-white hover:scale-110 cursor-pointer" : "bg-gray-200 cursor-not-allowed opacity-50"}
         `}
       >
-        <ChevronLeft />
+        <ChevronLeft className="text-fuchsia-500" />
       </button>
 
       {/* RIGHT ARROW */}
@@ -98,7 +98,7 @@ const Recommendations = ({
           ${canScrollRight ? "bg-white hover:scale-110 cursor-pointer" : "bg-gray-200 cursor-not-allowed opacity-50"}
         `}
       >
-        <ChevronRight />
+        <ChevronRight className="text-fuchsia-500" />
       </button>
 
       {/* SCROLL CONTAINER */}

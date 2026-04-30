@@ -7,6 +7,7 @@ import { GradientHeartFilled, GradientHeartOutline } from "./GradientHeart";
 import { toggleWishlist } from "../store/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../store/cartSlice";
+import { HIDE_LOADER, SHOW_LOADER } from "../types";
 
 interface Review {
   rating: number;
@@ -63,8 +64,13 @@ const ProductDetail = () => {
   const handleAddToCart = async (p:Product, qty:number) =>{
     if (isInCart) {
       navigate("/cart");
+      return;
     }
+    dispatch({type: SHOW_LOADER});
     dispatch(addToCart({product: p,stock:p.stock, quantity: qty}));
+    setTimeout(()=>{
+      dispatch({type: HIDE_LOADER});
+    },1000)
   };
 
   if (!product) {
@@ -99,7 +105,7 @@ const ProductDetail = () => {
           </div>
 
           {/* THUMBNAILS */}
-          <div className="flex gap-3 mt-3 overflow-x-auto">
+          <div className="flex gap-3 p-1 mt-3 overflow-x-auto">
             {product.images.map((img, i) => (
               <img
                 key={i}
