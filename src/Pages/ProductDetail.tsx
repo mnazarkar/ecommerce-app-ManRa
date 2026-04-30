@@ -119,7 +119,7 @@ const ProductDetail = () => {
           <div className="overflow-hidden rounded-2xl shadow-md">
             <img
               src={product.images[activeImage]}
-              className="w-full h-[400px] object-cover bg-mauve-300 transition duration-500 hover:scale-105"
+              className="w-full h-[400px] object-cover bg-linear-to-bl from-mauve-400 to-indigo-200 transition duration-500 hover:scale-105"
             />
           </div>
 
@@ -130,7 +130,7 @@ const ProductDetail = () => {
                 key={i}
                 src={img}
                 onClick={() => setActiveImage(i)}
-                className={`w-16 h-16 object-cover bg-mauve-300 rounded cursor-pointer transition
+                className={`w-16 h-16 object-cover bg-linear-to-bl from-mauve-400 to-indigo-200 rounded cursor-pointer transition
                 ${
                   activeImage === i
                     ? "ring-2 ring-violet-500"

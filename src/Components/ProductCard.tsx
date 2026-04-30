@@ -39,7 +39,7 @@ const ProductCard = ({ p, extraClass }: any) => {
                 <img
                     src={p.thumbnail}
                     alt={p.title}
-                    className="h-60 w-full object-fill bg-mauve-300 rounded-md md:group-hover:scale-110 transition duration-500"
+                    className="h-60 w-full object-fill bg-linear-to-bl from-mauve-400 to-indigo-200 rounded-md md:group-hover:scale-110 transition duration-500"
                     loading="lazy"
                 />
                 <span className="absolute bottom-2 left-2 px-1 text-sm rounded bg-white/80">
