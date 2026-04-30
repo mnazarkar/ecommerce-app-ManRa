@@ -51,6 +51,8 @@ export const getUser = () => async (dispatch: Dispatch) => {
     dispatch({ type: SHOW_LOADER });
     const res = await api.get("/auth/me");
 
+    localStorage.setItem("userId", res.data.id);
+
     dispatch({
       type: GET_USER_SUCCESS,
       payload: res.data,

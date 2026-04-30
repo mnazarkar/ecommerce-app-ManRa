@@ -105,6 +105,7 @@ const ProductList = () => {
       setShowBackToTop(false);
     }
   };
+  scrollToTop();
 
   window.addEventListener("scroll", handleScroll);
 

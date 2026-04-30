@@ -1,8 +1,9 @@
 import { Trash2, CircleCheck } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateCartQuantity } from "../actions/cartActions";
 import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
+import { removeFromCart, updateQuantity, addToCart } from "../store/cartSlice";
 
 type CartItem = {
   id: number;
@@ -25,9 +26,9 @@ export const getTotalQuantity = (items: CartItem[]): number =>
   items.reduce((sum, item) => sum + item.quantity, 0);
 
 const Cart = () => {
-  const cart = useSelector((state: any) => state.cart);
+  const cart = useSelector((state: any) => state.cartSlice);
   const [cartProduct, setCartProduct] = useState<CartItem[]>(
-    cart.carts[0]?.products || []
+    cart || []
   );
   const [deletedItem, setDeletedItem] = useState<CartItem | null>(null);
   const [showToast, setShowToast] = useState(false);
@@ -35,10 +36,11 @@ const Cart = () => {
   const [stockMap, setStockMap] = useState<Record<number, number>>({});
 
   const dispatch = useDispatch<any>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
-      setCartProduct(cart.carts[0]?.products || []);
+      setCartProduct(cart || []);
     }, 800);
   }, [cart.carts]);
 
@@ -67,7 +69,7 @@ const Cart = () => {
     };
 
     fetchStock();
-  }, []);
+  }, [cartProduct.length]);
 
   // UPDATE QTY
   const handleQuantityChange = (id: number, qty: number) => {
@@ -82,7 +84,7 @@ const Cart = () => {
         : p
     );
 
-    dispatch(updateCartQuantity(getTotalQuantity(updated)));
+    dispatch(updateQuantity({id:id,quantity:getTotalQuantity(updated)}));
     setCartProduct(updated);
   };
 
@@ -94,7 +96,7 @@ const Cart = () => {
     const updated = cartProduct.filter((p) => p.id !== id);
 
     setCartProduct(updated);
-    dispatch(updateCartQuantity(getTotalQuantity(updated)));
+    dispatch(removeFromCart(id));
 
     setDeletedItem(itemToDelete);
     setShowToast(true);
@@ -117,7 +119,7 @@ const Cart = () => {
     const updated = [deletedItem, ...cartProduct];
 
     setCartProduct(updated);
-    dispatch(updateCartQuantity(getTotalQuantity(updated)));
+    dispatch(addToCart({product:deletedItem,stock:deletedItem.stock,quantity:getTotalQuantity(updated)}));
 
     setDeletedItem(null);
     setShowToast(false);
@@ -149,7 +151,9 @@ const Cart = () => {
                 className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-3 flex gap-3"
               >
                 {/* IMAGE */}
-                <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
+                  onClick={() => navigate(`/product/${product.id}`)}
+                >
                   <img
                     src={product.thumbnail}
                     className="w-full h-full object-cover"
@@ -161,7 +165,7 @@ const Cart = () => {
 
                   {/* TITLE + DELETE */}
                   <div className="flex justify-between gap-2">
-                    <h3 className="font-medium text-sm line-clamp-2">
+                    <h3 className="font-medium text-sm line-clamp-2 cursor-pointer" onClick={() => navigate(`/product/${product.id}`)}>
                       {product.title}
                     </h3>
 

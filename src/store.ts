@@ -5,6 +5,7 @@ import { loaderReducer } from "./reducers/loaderReducer";
 import { productReducer } from "./reducers/productReducer";
 import { cartReducer } from "./reducers/cartReducer";
 import wishlistReducer from "./store/wishlistSlice"
+import cartSliceReducer from "./store/cartSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   product: productReducer,
   cart: cartReducer,
   wishlist: wishlistReducer,
+  cartSlice: cartSliceReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

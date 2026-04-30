@@ -104,7 +104,7 @@ const Recommendations = ({
       {/* SCROLL CONTAINER */}
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar px-1 snap-x"
+        className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar px-1 py-3 snap-x"
       >
         {items.map((p) => (
           <ProductCard p={p} extraClass={'snap-start'} />

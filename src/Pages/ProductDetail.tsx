@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import api from "../api/axios";
 import { Star } from "lucide-react";
 import Recommendations from "../Components/Recommendations";
 import { GradientHeartFilled, GradientHeartOutline } from "./GradientHeart";
 import { toggleWishlist } from "../store/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../store/cartSlice";
+import { HIDE_LOADER, SHOW_LOADER } from "../types";
 
 interface Review {
   rating: number;
@@ -20,11 +22,12 @@ interface Product {
   price: number;
   discountPercentage: number;
   rating: number;
-  stock?: number;
+  stock: number;
   brand: string;
   category: string;
   images: string[];
   reviews: Review[];
+  thumbnail: string;
 }
 
 const ProductDetail = () => {
@@ -35,6 +38,8 @@ const ProductDetail = () => {
   const [animate, setAnimate] = useState(false);
   const dispatch = useDispatch();
   const wishlist = useSelector((state: any) => state.wishlist);
+  const cartSlice = useSelector((state: any) => state.cartSlice);
+  const navigate = useNavigate();
 
   const isWishlisted = (id: number) =>
     wishlist.some((item: any) => item.id === id);
@@ -44,7 +49,9 @@ const ProductDetail = () => {
       dispatch(toggleWishlist(product));
   
       setTimeout(() => setAnimate(false), 200);
-    };
+  };
+
+  const isInCart = cartSlice.some((item: any) => item.id === Number(id));
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -53,6 +60,13 @@ const ProductDetail = () => {
     };
     fetchProduct();
   }, [id]);
+
+  const handleAddToCart = async (p:Product, qty:number) =>{
+    if (isInCart) {
+      navigate("/cart");
+    }
+    dispatch(addToCart({product: p,stock:p.stock, quantity: qty}));
+  };
 
   if (!product) {
     return (
@@ -174,8 +188,10 @@ const ProductDetail = () => {
           </div>
 
           {/* CTA */}
-          <button className="w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-bl from-violet-500 to-fuchsia-500 shadow-md hover:scale-[1.02] transition cursor-pointer">
-            Add to Cart
+          <button className="w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-bl from-violet-500 to-fuchsia-500 shadow-md hover:scale-[1.02] transition cursor-pointer"
+            onClick={()=>handleAddToCart(product,qty)}
+          >
+            {isInCart ? 'Go To Cart' : 'Add to Cart'}
           </button>
 
           <p className="text-gray-600">{product.description}</p>

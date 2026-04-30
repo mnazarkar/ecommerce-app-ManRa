@@ -1,6 +1,7 @@
-import { Trash2 } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlist } from "../store/wishlistSlice";
+// import { addToCart } from "../actions/cartActions"; // adjust if needed
 import { useNavigate } from "react-router-dom";
 
 type Product = {
@@ -12,16 +13,21 @@ type Product = {
 
 const Wishlist = () => {
   const wishlist = useSelector((state: any) => state.wishlist);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
 
   const handleRemove = (product: Product) => {
     dispatch(toggleWishlist(product));
   };
 
+  const handleMoveToCart = (product: Product) => {
+    // dispatch(addToCart(product)); // 👈 your cart action
+    dispatch(toggleWishlist(product)); // remove from wishlist
+  };
+
   if (!wishlist.length) {
     return (
-      <div>
+      <div className="px-4 py-6">
         <h1 className="text-2xl font-bold mb-4">Wishlist</h1>
 
         <div className="bg-white rounded-xl shadow-sm p-6 text-center">
@@ -34,16 +40,15 @@ const Wishlist = () => {
   }
 
   return (
-    <div>
+    <div className="px-4 lg:px-10 py-6">
 
       <h1 className="text-2xl font-bold mb-6">
-        Wishlist
+        Wishlist ({wishlist.length})
       </h1>
 
       <div className="flex flex-col gap-3">
 
         {wishlist.map((product: Product) => {
-          // fake discount (same logic as cart)
           const discountedPrice = product.price * 0.9;
           const discount = product.price - discountedPrice;
 
@@ -64,25 +69,46 @@ const Wishlist = () => {
               {/* DETAILS */}
               <div className="flex-1 flex flex-col justify-between">
 
-                {/* TITLE + REMOVE */}
+                {/* TITLE + ACTIONS */}
                 <div className="flex justify-between gap-2">
+
                   <h3 className="font-medium text-sm line-clamp-2">
                     {product.title}
                   </h3>
 
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleRemove(product);
-                    }}
-                    className="text-gray-400 hover:text-red-500 transition cursor-pointer active:scale-90"
-                  >
-                    <Trash2 size={18} />
-                  </button>
+                  <div className="flex items-center gap-2">
+
+                    {/* ❤️ REMOVE */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemove(product);
+                      }}
+                      className="text-red-500 hover:scale-110 active:scale-90 transition cursor-pointer"
+                    >
+                      <Heart
+                        size={18}
+                        className="fill-red-500 text-red-500"
+                      />
+                    </button>
+
+                    {/* 🛒 MOVE TO CART */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleMoveToCart(product);
+                      }}
+                      className="text-gray-600 hover:text-black hover:scale-110 active:scale-90 transition cursor-pointer"
+                    >
+                      <ShoppingCart size={18} />
+                    </button>
+
+                  </div>
                 </div>
 
                 {/* PRICE */}
                 <div className="flex items-center gap-2 flex-wrap mt-1">
+
                   <span className="text-gray-400 line-through text-xs">
                     ₹{product.price.toFixed(2)}
                   </span>
@@ -94,6 +120,7 @@ const Wishlist = () => {
                   <span className="font-semibold text-sm">
                     ₹{discountedPrice.toFixed(2)}
                   </span>
+
                 </div>
 
               </div>
