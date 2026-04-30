@@ -84,7 +84,7 @@ const SearchBar = () => {
 
             {/* Left icon inside input */}
             <Search
-              className="absolute left-3 text-gray-500 cursor-pointer"
+              className="absolute left-3 cursor-pointer text-fuchsia-500"
               size={24}
               onClick={handleSubmit}
             />
