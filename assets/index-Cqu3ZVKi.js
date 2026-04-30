@@ -24,7 +24,7 @@ Please change the parent <Route path="${e}"> to <Route path="${e===`/`?`*`:`${e}
           `,children:(0,W.jsxs)(`form`,{onSubmit:e=>{e.preventDefault(),c()},className:`relative flex flex-row items-center w-[80%]`,children:[(0,W.jsx)(`input`,{ref:o,type:`text`,placeholder:`Search products...`,value:e,onChange:e=>t(e.target.value),onKeyDown:e=>{e.key===`Enter`&&(e.preventDefault(),c())},className:`\r
                 w-full border rounded-full py-2 pl-10 pr-10\r
                 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white\r
-              `}),(0,W.jsx)(ka,{className:`absolute left-3 text-gray-500 cursor-pointer`,size:24,onClick:c}),(0,W.jsx)(Va,{className:`absolute right-3 cursor-pointer text-gray-500`,size:24,onClick:()=>{r(!1),t(``)}})]})})]})},xl=()=>{let e=uo(),[t,n]=(0,S.useState)(!1),{categories:r}=L(e=>e.product),i=er();(0,S.useEffect)(()=>{e(gl())},[]),console.log(`cccc`,r);let a=t=>{console.log(`Category clicked:`,t),e(_l(t)),n(!1),i(`/products/${t}`)};return(0,W.jsxs)(W.Fragment,{children:[(0,W.jsx)(`style`,{children:`
+              `}),(0,W.jsx)(ka,{className:`absolute left-3 cursor-pointer text-fuchsia-500`,size:24,onClick:c}),(0,W.jsx)(Va,{className:`absolute right-3 cursor-pointer text-gray-500`,size:24,onClick:()=>{r(!1),t(``)}})]})})]})},xl=()=>{let e=uo(),[t,n]=(0,S.useState)(!1),{categories:r}=L(e=>e.product),i=er();(0,S.useEffect)(()=>{e(gl())},[]),console.log(`cccc`,r);let a=t=>{console.log(`Category clicked:`,t),e(_l(t)),n(!1),i(`/products/${t}`)};return(0,W.jsxs)(W.Fragment,{children:[(0,W.jsx)(`style`,{children:`
       .custom-scrollbar {
         scrollbar-width: thin;
         scrollbar-color: transparent transparent;
