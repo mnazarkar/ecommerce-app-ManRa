@@ -1,4 +1,4 @@
-import { Trash2, CircleCheck } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import api from "../api/axios";
