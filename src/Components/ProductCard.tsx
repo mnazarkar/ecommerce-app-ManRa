@@ -33,16 +33,16 @@ const ProductCard = ({ p, extraClass }: any) => {
         <div
             key={p.id}
             onClick={() => navigate(`/product/${p.id}`)}
-            className={`group bg-white rounded-2xl overflow-hidden shadow-md shadow-fuchsia-500/50 p-3 cursor-pointer shadow hover:shadow-2xl transition duration-300 min-w-[164px] md:min-w-[240px] min-h-[372px] ${extraClass}`}
+            className={`group bg-white rounded-2xl overflow-hidden shadow-md p-3 cursor-pointer shadow hover:shadow-2xl transition duration-300 min-w-[164px] md:min-w-[240px] min-h-[372px] ${extraClass}`}
         >
             <div className="relative overflow-hidden">
                 <img
                     src={p.thumbnail}
                     alt={p.title}
-                    className="h-60 w-full object-fill md:group-hover:scale-110 transition duration-500"
+                    className="h-60 w-full object-fill bg-mauve-300 rounded-md md:group-hover:scale-110 transition duration-500"
                     loading="lazy"
                 />
-                <span className="absolute bottom-2 left-2 px-1 text-sm rounded bg-black/10">
+                <span className="absolute bottom-2 left-2 px-1 text-sm rounded bg-white/80">
                     <span className="flex flex-row items-center justify-center gap-1 bg-gradient-to-bl from-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
                         <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
                         <span className="text-black">|</span>
@@ -50,7 +50,7 @@ const ProductCard = ({ p, extraClass }: any) => {
                     </span>
                 </span>
                 <span
-                    className={`absolute top-2 right-2 p-1 rounded-full bg-black/10 cursor-pointer
+                    className={`absolute top-2 right-2 p-1 rounded-full bg-white/80 cursor-pointer
                   transition-all duration-300
                   ${(animatingId === p.id && isWishlisted(p.id)) ? "scale-115" : "scale-100"}
                 `}

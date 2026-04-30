@@ -88,7 +88,7 @@ const Wishlist = () => {
             <div
               key={product.id}
               onClick={() => navigate(`/product/${product.id}`)}
-              className="bg-white rounded-xl shadow-md shadow-fuchsia-500/50 hover:shadow-xl transition p-3 flex gap-3 cursor-pointer"
+              className="bg-white rounded-xl shadow-md hover:shadow-xl transition p-3 flex gap-3 cursor-pointer"
             >
               {/* IMAGE */}
               <div className="w-25 h-25 rounded-lg overflow-hidden flex-shrink-0">

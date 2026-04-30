@@ -55,7 +55,7 @@ const Carousel = () => {
         onClick={prevSlide}
         className="absolute top-1/2 left-2 -translate-y-1/2 bg-white/70 p-2 rounded-full shadow cursor-pointer"
       >
-        <ChevronLeft size={20} />
+        <ChevronLeft size={20} className="text-fuchsia-500" />
       </button>
 
       {/* ➡️ Right Arrow */}
@@ -63,7 +63,7 @@ const Carousel = () => {
         onClick={nextSlide}
         className="absolute top-1/2 right-2 -translate-y-1/2 bg-white/70 p-2 rounded-full shadow cursor-pointer"
       >
-        <ChevronRight size={20} />
+        <ChevronRight size={20} className="text-fuchsia-500" />
       </button>
 
       {/* 🔘 Dots */}

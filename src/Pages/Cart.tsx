@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { Trash2, Minus, Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import api from "../api/axios";
@@ -168,7 +168,7 @@ const Cart = () => {
             return (
               <div
                 key={product.id}
-                className="bg-white rounded-xl shadow-sm shadow-fuchsia-500/50 hover:shadow-md transition p-3 flex gap-3"
+                className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-3 flex gap-3"
               >
                 {/* IMAGE */}
                 <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
@@ -225,7 +225,7 @@ const Cart = () => {
                         }
                         className={`w-6 h-6 flex text-fuchsia-500 items-center justify-center rounded ${isMin ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-200 cursor-pointer active:scale-90"}`}
                       >
-                        -
+                        <Minus size={16} className="text-fuchsia-500"/>
                       </button>
 
                       {/* VALUE */}
@@ -241,7 +241,7 @@ const Cart = () => {
                         }
                         className={`w-6 h-6 flex items-center text-fuchsia-500 justify-center rounded ${isMax ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-200 cursor-pointer active:scale-90"}`}
                       >
-                        +
+                        <Plus size={16} className="text-fuchsia-500"/>
                       </button>
                     </div>
 
@@ -258,7 +258,7 @@ const Cart = () => {
         </div>
 
         {/* SUMMARY */}
-        <div className="bg-white rounded-xl shadow-md shadow-fuchsia-500/50 p-5 h-fit sticky top-20">
+        <div className="bg-white rounded-xl shadow-md  p-5 h-fit sticky top-20">
 
           <h2 className="text-lg font-semibold mb-4">
             Order Summary
@@ -300,9 +300,6 @@ const Cart = () => {
             Proceed to Checkout
           </button>
         </div>
-        {showToast && (
-          <Toast handleUndo={handleUndo} label={'Item removed from Cart'} showToastDownAnimation={showToastDownAnimation}/>
-        )}
       </div>
     );
   };
@@ -327,7 +324,7 @@ const Cart = () => {
       <>
       <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-5 flex flex-col gap-3 justify-center items-center text-gray-400">
         No Products in Cart
-        <button className="mt-5 w-full lg:max-w-[40%] py-3 rounded-xl text-white font-semibold bg-gradient-to-bl from-violet-500 to-fuchsia-500 shadow-md hover:scale-[1.02] transition cursor-pointer"
+        <button className="mt-5 w-full md:max-w-[40%] py-3 rounded-xl text-white font-semibold bg-gradient-to-bl from-violet-500 to-fuchsia-500 shadow-md hover:scale-[1.02] transition cursor-pointer"
           onClick={()=> navigate('/')}
         >Continue Shopping</button>
       </div>
@@ -335,7 +332,14 @@ const Cart = () => {
     );
   };
 
-  return cart.length === 0 ? noProductView() : cartView();
+  return (
+    <>
+    {cart.length === 0 ? noProductView() : cartView()}
+    {showToast && (
+          <Toast handleUndo={handleUndo} label={'Item removed from Cart'} showToastDownAnimation={showToastDownAnimation}/>
+        )}
+    </>
+  );
 };
 
 export default Cart;

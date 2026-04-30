@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/axios";
-import { Star } from "lucide-react";
+import { Star, Minus, Plus } from "lucide-react";
 import Recommendations from "../Components/Recommendations";
 import { GradientHeartFilled, GradientHeartOutline } from "./GradientHeart";
 import { toggleWishlist } from "../store/wishlistSlice";
@@ -52,6 +52,12 @@ const ProductDetail = () => {
   };
 
   const isInCart = cartSlice.some((item: any) => item.id === Number(id));
+  const cartQty = useSelector((state: any) => {
+      const item = state.cartSlice.find(
+        (item: any) => item.id === Number(id)
+      );
+      return item ? item.quantity : 1;
+    });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -64,6 +70,7 @@ const ProductDetail = () => {
       
     };
     fetchProduct();
+    setQty(cartQty);
   }, [id]);
 
   const scrollToTop = () => {
@@ -109,10 +116,10 @@ const ProductDetail = () => {
 
         {/* IMAGE GALLERY */}
         <div>
-          <div className="overflow-hidden rounded-2xl shadow-md shadow-fuchsia-500/50">
+          <div className="overflow-hidden rounded-2xl shadow-md">
             <img
               src={product.images[activeImage]}
-              className="w-full h-[400px] object-cover transition duration-500 hover:scale-105"
+              className="w-full h-[400px] object-cover bg-mauve-300 transition duration-500 hover:scale-105"
             />
           </div>
 
@@ -123,7 +130,7 @@ const ProductDetail = () => {
                 key={i}
                 src={img}
                 onClick={() => setActiveImage(i)}
-                className={`w-16 h-16 object-cover rounded cursor-pointer transition
+                className={`w-16 h-16 object-cover bg-mauve-300 rounded cursor-pointer transition
                 ${
                   activeImage === i
                     ? "ring-2 ring-violet-500"
@@ -191,17 +198,53 @@ const ProductDetail = () => {
           </p>
 
           {/* QUANTITY */}
-          <div>
-            <label className="text-sm">Quantity</label>
-            <select
-              value={qty}
-              onChange={(e) => setQty(Number(e.target.value))}
-              className="ml-2 border px-2 py-1 bg-gray-100 rounded-full shadow-sm cursor-pointer"
-            >
-              {Array.from({ length: Number(product.stock) }).map((_,i) => (
-                <option key={i}>{i+1}</option>
-              ))}
-            </select>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-gray-600">Quantity</span>
+
+            <div className="flex items-center bg-gray-100 rounded-xl shadow-sm overflow-hidden">
+
+              {/* Minus */}
+              <button
+                onClick={() => setQty((prev) => Math.max(1, prev - 1))}
+                disabled={qty === 1 || isInCart}
+                className={`p-2 transition active:scale-90 text-fuchsia-500
+                    ${(qty === 1 || isInCart)
+                      ? "opacity-40 cursor-not-allowed"
+                      : "hover:bg-gray-200 cursor-pointer"
+                    }
+                  `}
+              >
+                <Minus size={18} className="text-fuchsia-500"/>
+              </button>
+
+              {/* Value */}
+              <span className="px-4 font-semibold select-none">
+                {qty}
+              </span>
+
+              {/* Plus */}
+              <button
+                onClick={() =>
+                  setQty((prev) =>
+                    Math.min(product.stock, prev + 1)
+                  )
+                }
+                disabled={qty === product.stock || isInCart}
+                className={`p-2 transition active:scale-90 text-fuchsia-500
+                  ${(qty === product.stock || isInCart)
+                      ? "opacity-40 cursor-not-allowed"
+                      : "hover:bg-gray-200 cursor-pointer"
+                    }
+                `}
+              >
+                <Plus size={18} className="text-fuchsia-500"/>
+              </button>
+            </div>
+
+            {/* Optional stock text */}
+            <span className="text-xs text-gray-400">
+              {product.stock} available
+            </span>
           </div>
 
           {/* CTA */}
