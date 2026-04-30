@@ -131,6 +131,9 @@ const Cart = () => {
   };
 
   const cartView = () => {
+    if (cartProduct.length === 0) {
+      return skeletonView();
+    }
     return (
       <div className="grid lg:grid-cols-3 gap-6">
 
@@ -317,8 +320,20 @@ const Cart = () => {
       </div>
     );
   };
+  const noProductView = () => {
+    return(
+      <>
+      <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-5 flex flex-col gap-3 justify-center items-center text-gray-400">
+        No Products in Cart
+        <button className="mt-5 w-full lg:max-w-[40%] py-3 rounded-xl text-white font-semibold bg-gradient-to-bl from-violet-500 to-fuchsia-500 shadow-md hover:scale-[1.02] transition cursor-pointer"
+          onClick={()=> navigate('/')}
+        >Continue Shopping</button>
+      </div>
+      </>
+    );
+  };
 
-  return cartProduct.length === 0 ? skeletonView() : cartView();
+  return cart.length === 0 ? noProductView() : cartView();
 };
 
 export default Cart;
