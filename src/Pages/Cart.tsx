@@ -5,6 +5,7 @@ import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { removeFromCart, updateQuantity, addToCart } from "../store/cartSlice";
 import { HIDE_LOADER, SHOW_LOADER } from "../types";
+import Toast from "../Components/Toast";
 
 type CartItem = {
   id: number;
@@ -33,7 +34,9 @@ const Cart = () => {
   );
   const [deletedItem, setDeletedItem] = useState<CartItem | null>(null);
   const [showToast, setShowToast] = useState(false);
+  const [showToastDownAnimation, setShowToastDownAnimation] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timeoutARef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [stockMap, setStockMap] = useState<Record<number, number>>({});
 
   const dispatch = useDispatch<any>();
@@ -112,8 +115,12 @@ const Cart = () => {
     }
 
     // Set new timeout
+    timeoutARef.current = setTimeout(()=>{
+      setShowToastDownAnimation(true);
+    },7800);
     timeoutRef.current = setTimeout(() => {
       setShowToast(false);
+      setShowToastDownAnimation(false);
       setDeletedItem(null);
     }, 8000);
   };
@@ -134,6 +141,9 @@ const Cart = () => {
     // Clear timeout on undo
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
+    }
+    if (timeoutARef.current) {
+      clearTimeout(timeoutARef.current);
     }
   };
 
@@ -291,22 +301,7 @@ const Cart = () => {
           </button>
         </div>
         {showToast && (
-          <div className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[90%] max-w-md z-50">
-
-            <div className="flex items-center justify-between bg-black text-white px-4 py-3 rounded-lg shadow-lg animate-slideUp">
-              <span className="text-sm flex gap-2">
-                <CircleCheck size={24} className="text-fuchsia-400" />
-                <span>Item removed from Cart</span>
-              </span>
-
-              <button
-                onClick={handleUndo}
-                className="text-sm font-semibold text-fuchsia-400 hover:text-white transition cursor-pointer underline underline-offset-4">
-                Undo
-              </button>
-            </div>
-
-          </div>
+          <Toast handleUndo={handleUndo} label={'Item removed from Cart'} showToastDownAnimation={showToastDownAnimation}/>
         )}
       </div>
     );

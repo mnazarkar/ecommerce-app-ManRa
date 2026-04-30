@@ -4,6 +4,8 @@ import { toggleWishlist } from "../store/wishlistSlice";
 import { addToCart } from "../store/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { HIDE_LOADER, SHOW_LOADER } from "../types";
+import Toast from "../Components/Toast";
+import { useState } from "react";
 
 type Product = {
   id: number;
@@ -14,20 +16,45 @@ type Product = {
 
 const Wishlist = () => {
   const wishlist = useSelector((state: any) => state.wishlist);
+  const [showToast, setShowToast] = useState(false);
+  const [toastLabel, setToastLabel] = useState('');
+  const [showToastDownAnimation, setShowToastDownAnimation] = useState(false);
   const dispatch = useDispatch<any>();
   const navigate = useNavigate();
 
   const handleRemove = (product: Product) => {
-    dispatch({type: SHOW_LOADER});
+    dispatch({ type: SHOW_LOADER });
     dispatch(toggleWishlist(product));
-    setTimeout(()=>dispatch({type: HIDE_LOADER}),1000);
+    setTimeout(() => {
+      dispatch({ type: HIDE_LOADER });
+      setShowToast(true);
+      setToastLabel('Item Removed from Wishlist');
+      setTimeout(() => {
+        setShowToastDownAnimation(true);
+      }, 7800);
+      setTimeout(() => {
+        setShowToast(false);
+        setShowToastDownAnimation(false);
+      }, 8000);
+    }, 800);
   };
 
   const handleMoveToCart = (product: Product) => {
-    dispatch({type: SHOW_LOADER});
-    dispatch(addToCart({product:product,stock:5,quantity:1}));
-    dispatch(toggleWishlist(product)); 
-    setTimeout(()=>dispatch({type: HIDE_LOADER}),1000);
+    dispatch({ type: SHOW_LOADER });
+    dispatch(addToCart({ product: product, stock: 5, quantity: 1 }));
+    dispatch(toggleWishlist(product));
+    setTimeout(() => {
+      dispatch({ type: HIDE_LOADER });
+      setShowToast(true);
+      setToastLabel('Item Moved To Cart');
+      setTimeout(() => {
+        setShowToastDownAnimation(true);
+      }, 7800);
+      setTimeout(() => {
+        setShowToast(false);
+        setShowToastDownAnimation(false);
+      }, 8000);
+    }, 1000);
   };
 
   if (!wishlist.length) {
@@ -138,6 +165,7 @@ const Wishlist = () => {
         })}
 
       </div>
+      {showToast && <Toast label={toastLabel} showToastDownAnimation={showToastDownAnimation} handleUndo={() => { }} />}
     </div>
   );
 };

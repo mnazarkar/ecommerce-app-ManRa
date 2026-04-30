@@ -55,11 +55,23 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
+      dispatch({type: SHOW_LOADER});
       const res = await api.get(`/products/${id}`);
-      setTimeout(() => setProduct(res.data), 800);
+      setTimeout(() => {setProduct(res.data);
+        dispatch({type: HIDE_LOADER});
+        scrollToTop();
+      }, 800);
+      
     };
     fetchProduct();
   }, [id]);
+
+  const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
 
   const handleAddToCart = async (p:Product, qty:number) =>{
     if (isInCart) {
